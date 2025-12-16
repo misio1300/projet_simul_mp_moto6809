@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.SVGPath?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="946.0" prefWidth="1076.0" styleClass="-fx-border-radius" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="simul.moto.MOTOController">
+   <children>
+      <VBox layoutX="394.0" layoutY="130.0" prefHeight="262.0" prefWidth="259.0">
+         <children>
+            <TitledPane animated="false" prefHeight="250.0" prefWidth="259.0" text="PROGRAMME">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="227.0" prefWidth="258.0">
+                     <children>
+                        <TableView fx:id="tabProg" layoutX="-1.0" layoutY="-25.0" prefHeight="250.0" prefWidth="259.0">
+                           <columns>
+                              <TableColumn fx:id="tabProgC1" prefWidth="75.0" text="C1" />
+                              <TableColumn fx:id="tabProgC2" prefWidth="183.20001525878905" text="C2" />
+                           </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </TitledPane>
+         </children>
+      </VBox>
+      <VBox layoutX="394.0" layoutY="419.0" />
+      <TitledPane animated="false" layoutX="698.0" layoutY="123.0" text="RAM">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="251.0" prefWidth="258.0">
+               <children>
+                  <TableView fx:id="tabRam" layoutX="-1.0" layoutY="-29.0" prefHeight="287.0" prefWidth="259.0">
+                    <columns>
+                      <TableColumn fx:id="tabRamC1" prefWidth="79.19994813203812" text="C1" />
+                      <TableColumn fx:id="tabRamC2" prefWidth="180.00001525878906" text="C2" />
+                    </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+         </content>
+      </TitledPane>
+      <TitledPane animated="false" layoutX="722.0" layoutY="439.0" text="ROM">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="251.0" prefWidth="258.0">
+               <children>
+                  <TableView fx:id="tabRom" layoutX="-1.0" layoutY="-29.0" prefHeight="287.0" prefWidth="259.0">
+                     <columns>
+                        <TableColumn fx:id="tabRomC1" prefWidth="79.19994813203812" text="C1" />
+                        <TableColumn fx:id="tabRomC2" prefWidth="180.00001525878906" text="C2" />
+                     </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+         </content>
+      </TitledPane>
+      <TitledPane animated="false" layoutX="22.0" layoutY="132.0" prefHeight="502.0" prefWidth="362.0" text="ARCHITECTURE INTERNE DU 6809">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="533.0" prefWidth="361.0">
+               <children>
+                  <AnchorPane layoutX="4.0" layoutY="-1.0" prefHeight="471.0" prefWidth="352.0">
+                     <children>
+                        <SVGPath content="M 100 20 L 100 80 L 0 100 L 0 60 L 30 50 L 0 40 L 0 0 Z" layoutX="126.0" layoutY="185.0">
+                           <fill>
+                              <LinearGradient endX="1.0" endY="1.0">
+                                 <stops>
+                                    <Stop>
+                                       <color>
+                                          <Color />
+                                       </color>
+                                    </Stop>
+                                    <Stop offset="1.0">
+                                       <color>
+                                          <Color red="1.0" green="1.0" blue="1.0" />
+                                       </color>
+                                    </Stop>
+                                 </stops>
+                              </LinearGradient>
+                           </fill>
+                        </SVGPath>
+                        <Label layoutX="168.0" layoutY="224.0" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="UAL" />
+                        <Line endX="38.99998474121094" endY="8.800003051757812" layoutX="87.0" layoutY="195.0" startX="4.2000579833984375" startY="8.800003051757812" />
+                        <Line endX="38.99998474121094" endY="8.800003051757812" layoutX="86.0" layoutY="254.0" startX="4.2000579833984375" startY="8.800003051757812" />
+                        <TextField fx:id="acumA" layoutX="32.0" layoutY="192.0" prefHeight="24.0" prefWidth="58.0" />
+                        <TextField fx:id="acumB" layoutX="30.0" layoutY="247.0" prefHeight="24.0" prefWidth="58.0" />
+                        <TextField fx:id="txtPC" layoutX="58.0" layoutY="49.0" prefHeight="24.0" prefWidth="100.0" />
+                        <TextField layoutX="51.0" layoutY="129.0" prefHeight="24.0" prefWidth="82.0" />
+                        <TextField layoutX="40.0" layoutY="333.0" prefHeight="24.0" prefWidth="58.0" />
+                        <TextField layoutX="188.0" layoutY="129.0" prefHeight="24.0" prefWidth="82.0" />
+                        <TextField fx:id="flags" layoutX="149.0" layoutY="333.0" prefHeight="24.0" prefWidth="100.0" />
+                        <TextField fx:id="regX" layoutX="58.0" layoutY="401.0" prefHeight="24.0" prefWidth="82.0" />
+                        <TextField layoutX="205.0" layoutY="401.0" prefHeight="24.0" prefWidth="82.0" />
+                        <Label layoutX="20.0" layoutY="45.0" prefHeight="31.0" prefWidth="27.0" text="PC" />
+                        <Label layoutX="14.0" layoutY="188.0" prefHeight="31.0" prefWidth="20.0" text="A" />
+                        <Label layoutX="14.0" layoutY="243.0" prefHeight="31.0" prefWidth="20.0" text="B" />
+                        <Label layoutX="37.0" layoutY="397.0" prefHeight="31.0" prefWidth="14.0" text="X" />
+                        <Label layoutX="188.0" layoutY="397.0" prefHeight="31.0" prefWidth="20.0" text="Y" />
+                        <Label layoutX="16.0" layoutY="329.0" prefHeight="31.0" prefWidth="20.0" text="DP" />
+                        <Label layoutX="25.0" layoutY="125.0" prefHeight="31.0" prefWidth="12.0" text="S" />
+                        <Label layoutX="161.0" layoutY="125.0" prefHeight="31.0" prefWidth="14.0" text="U" />
+                        <Line endX="-15.800018310546875" endY="58.0" layoutX="205.0" layoutY="275.0" startX="-15.800018310546875" startY="-2.800018310546875" />
+                        <Label layoutX="153.0" layoutY="360.0" prefHeight="16.0" prefWidth="112.0" text=" E F H I N Z V C" />
+                        <TextField fx:id="proxIns" layoutX="51.0" layoutY="92.0" prefHeight="24.0" prefWidth="218.0" />
+                        <TextField fx:id="acumB" layoutX="32.0" layoutY="291.0" prefHeight="24.0" prefWidth="82.0" />
+                        <Label layoutX="10.0" layoutY="287.0" prefHeight="31.0" prefWidth="20.0" text="D" />
+                     </children>
+                  </AnchorPane>
+               </children>
+            </AnchorPane>
+        </content>
+      </TitledPane>
+      <TitledPane animated="false" layoutX="428.0" layoutY="431.0" prefHeight="312.0" prefWidth="262.0" text="CLI">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <TextArea fx:id="txtCLI" layoutY="-3.0" prefHeight="290.0" prefWidth="262.0" />
+               </children>
+            </AnchorPane>
+        </content>
+      </TitledPane>
+      <ToolBar layoutX="22.0" layoutY="57.0" prefHeight="37.0" prefWidth="596.0">
+         <items>
+            <Button mnemonicParsing="false" text="PAS A PAS" />
+          <Button mnemonicParsing="false" onAction="#reset" prefHeight="24.0" prefWidth="75.0" text="RESET" />
+            <TextField fx:id="acumA1" prefHeight="24.0" prefWidth="58.0" />
+         </items>
+      </ToolBar>
+      <Button layoutX="428.0" layoutY="751.0" mnemonicParsing="false" onAction="#enter" text="Enter" />
+   </children>
+</AnchorPane>

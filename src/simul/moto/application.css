@@ -1,0 +1,37 @@
+/* ======== ESTILO GERAL ======== */
+.root {
+    -fx-background-color: #f0f0f0;
+}
+
+/* ======== LABELS ======== */
+.label {
+    -fx-font-family: "Consolas";
+    -fx-text-fill: #222;
+}
+
+/* ======== CAMPOS DE TEXTO ======== */
+.text-field {
+    -fx-background-color: #fafafa;
+    -fx-border-color: #bbb;
+    -fx-border-radius: 3;
+    -fx-padding: 2;
+}
+
+/* ======== TABELA DE MEMÓRIA ======== */
+.table-view {
+    -fx-border-color: #999;
+    -fx-border-radius: 3;
+}
+
+/* ======== BOTÕES ======== */
+.button {
+    -fx-background-color: linear-gradient(to bottom, #d0d0d0, #b0b0b0);
+    -fx-border-color: #888;
+    -fx-border-radius: 4;
+    -fx-font-weight: bold;
+}
+.button {
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
+}
+/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
