@@ -62,16 +62,33 @@ public class Logique
 	public String decode(String m)
 	{
 		//char mod = m.charAt(0);
-		if(m.startsWith("#$") && m.length() == 4)
+		if((m.startsWith("#$") && (((m.charAt(2) >= '0' && m.charAt(2) <= '9') || (m.charAt(2) >= 'A' && m.charAt(2) <= 'F')) && ((m.charAt(3) >= '0' && m.charAt(3) <= '9') || (m.charAt(3) >= 'A' && m.charAt(3) <= 'F'))) && m.length() == 4)
+		|| (m.startsWith("#$") && (((m.charAt(2) >= '0' && m.charAt(2) <= '9') || (m.charAt(2) >= 'A' && m.charAt(2) <= 'F')) && ((m.charAt(3) >= '0' && m.charAt(3) <= '9') || (m.charAt(3) >= 'A' && m.charAt(3) <= 'F')) && ((m.charAt(4) >= '0' && m.charAt(4) <= '9') || (m.charAt(4) >= 'A' && m.charAt(4) <= 'F')) && ((m.charAt(5) >= '0' && m.charAt(5) <= '9') || (m.charAt(5) >= 'A' && m.charAt(5) <= 'F'))) && m.length() == 6))
 			return "IMMEDIAT";
-		else if(m.startsWith("$") && m.length() == 5)
+		else if(m.startsWith(">$") && m.length() == 5)
 			return "ETENDU";
-		else if(m.startsWith("<") && m.length() == 6)
+		else if(m.startsWith("<$") && m.length() == 4)
 			return "DIRECT";
-		else if(m.startsWith("[") && m.endsWith("]") && m.length() == 7)
+		else if(m.startsWith("[$") && m.endsWith("]") && m.length() == 7)
 			return "ETENDU INDIRECT";
-		else if (m == null || m.isEmpty())
+		else if(m == null || m.isEmpty())
 			return "INHERENT";
+		else if(m.startsWith(",") && m.length() == 2)
+			return "INDEXEDEPNULL";
+		else if(m.startsWith(",") && m.length() == 3)
+			return "INDEXEAUTODEC1";
+		else if(m.startsWith(",") && m.length() == 4)
+			return "INDEXEAUTODEC2";
+		else if(m.startsWith(",") && m.length() == 3)
+			return "INDEXEAUTOINC1";
+		else if(m.startsWith(",") && m.length() == 4)
+			return "INDEXEAUTOINC2";
+		else if(m.startsWith("A,") && m.length() == 3)
+			return "INDEXEDEPABASE' '";
+		else if(m.startsWith("B,") && m.length() == 3)
+			return "INDEXEDEPBBASE' '";
+		else if(m.startsWith("D,") && m.length() == 3)
+			return "INDEXEDEPDBASE' '";
 		else
 			return "FALSE";
 	}
@@ -83,10 +100,6 @@ public class Logique
 	}
 	public void ecrireMemoire(int address, int val) {
 	    Memoire.ecrireInt(address, val);
-	    Controller.atualiserCaseMemoire(address);
-	}
-	public void ecrireMemoireH(int address, byte val) {
-	    Memoire.ecrire(address, val);
 	    Controller.atualiserCaseMemoire(address);
 	}
 	public void progMemoire(String prog)
@@ -124,12 +137,12 @@ public class Logique
 	        		if(i==0) this.ecrireMemoire(adr, opcode);
 	        		else if(i==1)
         			{
-        				if("IMMEDIAT".equals(this.decode(mod))) 
+        				//if("IMMEDIAT".equals(this.decode(mod))) 
         				this.ecrireMemoire(adr, Integer.parseInt(mod.substring(2, 3), 16)); 
         			}
 	        		else
 	        		{
-	        			if("IMMEDIAT".equals(this.decode(mod))) 
+	        			//if("IMMEDIAT".equals(this.decode(mod))) 
 	        				this.ecrireMemoire(adr, Integer.parseInt(mod.substring(4, 5), 16)); 
 	        		}
 	        		adr++;

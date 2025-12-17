@@ -86,11 +86,11 @@ public class MOTOController
 		 String err = logic.fetch(programme);
 		 if(err != null)
 		 {
-				    Alert al = new Alert(Alert.AlertType.ERROR);
-				    al.setTitle("Erreur de programme");
-				    al.setHeaderText(err);
-				    al.show();
-				    return; 
+		    Alert al = new Alert(Alert.AlertType.ERROR);
+		    al.setTitle("Erreur de programme");
+		    al.setHeaderText(err);
+		    al.show();
+		    return; 
 		 }
 		 else
 		 {
@@ -109,9 +109,10 @@ public class MOTOController
 			        String instruct = mot[0];
 			        String mod = (mot.length > 1) ? mot[1] : "";
 			        Logique.execute(instruct, mod);
-			        i++;
-			        if(!lignes[i].isEmpty())
-			        this.setProxIns(lignes[i]);
+			        if(i < lignes.length-1) 
+		        	{
+		        		this.setProxIns(lignes[i + 1]);
+		        	}			     
 			        
 		       // }
 		       // catch(InterruptedException e)
@@ -155,7 +156,7 @@ public class MOTOController
 		        instruction);
 		    	tabProg.getItems().add(ligne);// adiciona linha individualmente
 		    	String[] mot = instruction.split("\\s+");
-		        adress += logic.nbOct(mot[0], logic.decode((mot.length > 1) ? mot[1] : ""));//instruction.length();
+		        adress += (logic.nbOct(mot[0], logic.decode((mot.length > 1) ? mot[1] : "")));//instruction.length();
 	    	}
 	    }
 	}
