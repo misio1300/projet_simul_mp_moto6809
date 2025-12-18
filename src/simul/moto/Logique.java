@@ -61,34 +61,41 @@ public class Logique
 	
 	public String decode(String m)
 	{
-		//char mod = m.charAt(0);
-		if((m.startsWith("#$") && (((m.charAt(2) >= '0' && m.charAt(2) <= '9') || (m.charAt(2) >= 'A' && m.charAt(2) <= 'F')) && ((m.charAt(3) >= '0' && m.charAt(3) <= '9') || (m.charAt(3) >= 'A' && m.charAt(3) <= 'F'))) && m.length() == 4)
-		|| (m.startsWith("#$") && (((m.charAt(2) >= '0' && m.charAt(2) <= '9') || (m.charAt(2) >= 'A' && m.charAt(2) <= 'F')) && ((m.charAt(3) >= '0' && m.charAt(3) <= '9') || (m.charAt(3) >= 'A' && m.charAt(3) <= 'F')) && ((m.charAt(4) >= '0' && m.charAt(4) <= '9') || (m.charAt(4) >= 'A' && m.charAt(4) <= 'F')) && ((m.charAt(5) >= '0' && m.charAt(5) <= '9') || (m.charAt(5) >= 'A' && m.charAt(5) <= 'F'))) && m.length() == 6))
+		if(m.startsWith("#$") && (((m.charAt(2) >= '0' && m.charAt(2) <= '9') || (m.charAt(2) >= 'A' && m.charAt(2) <= 'F')) && ((m.charAt(3) >= '0' && m.charAt(3) <= '9') || (m.charAt(3) >= 'A' && m.charAt(3) <= 'F'))) && m.length() == 4)
 			return "IMMEDIAT";
-		else if(m.startsWith(">$") && m.length() == 5)
+		else if(m.startsWith("#$") && (((m.charAt(2) >= '0' && m.charAt(2) <= '9') || (m.charAt(2) >= 'A' && m.charAt(2) <= 'F')) && ((m.charAt(3) >= '0' && m.charAt(3) <= '9') || (m.charAt(3) >= 'A' && m.charAt(3) <= 'F')) && ((m.charAt(4) >= '0' && m.charAt(4) <= '9') || (m.charAt(4) >= 'A' && m.charAt(4) <= 'F')) && ((m.charAt(5) >= '0' && m.charAt(5) <= '9') || (m.charAt(5) >= 'A' && m.charAt(5) <= 'F'))) && m.length() == 6)
+			return "IMMEDIAT3+";
+		else if((m.startsWith("$") && (((m.charAt(1) >= '0' && m.charAt(1) <= '9') || (m.charAt(1) >= 'A' && m.charAt(1) <= 'F')) && ((m.charAt(2) >= '0' && m.charAt(2) <= '9') || (m.charAt(2) >= 'A' && m.charAt(2) <= 'F')) && ((m.charAt(3) >= '0' && m.charAt(3) <= '9') || (m.charAt(3) >= 'A' && m.charAt(3) <= 'F')) && ((m.charAt(4) >= '0' && m.charAt(4) <= '9') || (m.charAt(4) >= 'A' && m.charAt(4) <= 'F'))) && m.length() == 5)
+				|| (m.startsWith(">$") && (((m.charAt(2) >= '0' && m.charAt(2) <= '9') || (m.charAt(2) >= 'A' && m.charAt(2) <= 'F')) && ((m.charAt(3) >= '0' && m.charAt(3) <= '9') || (m.charAt(3) >= 'A' && m.charAt(3) <= 'F')) && ((m.charAt(4) >= '0' && m.charAt(4) <= '9') || (m.charAt(4) >= 'A' && m.charAt(4) <= 'F')) && ((m.charAt(5) >= '0' && m.charAt(5) <= '9') || (m.charAt(5) >= 'A' && m.charAt(5) <= 'F'))) && m.length() == 6))
 			return "ETENDU";
-		else if(m.startsWith("<$") && m.length() == 4)
+		else if((m.startsWith("[$") && (((m.charAt(2) >= '0' && m.charAt(2) <= '9') || (m.charAt(2) >= 'A' && m.charAt(2) <= 'F')) && ((m.charAt(3) >= '0' && m.charAt(3) <= '9') || (m.charAt(3) >= 'A' && m.charAt(3) <= 'F')) && ((m.charAt(4) >= '0' && m.charAt(4) <= '9') || (m.charAt(4) >= 'A' && m.charAt(4) <= 'F')) && ((m.charAt(5) >= '0' && m.charAt(5) <= '9') || (m.charAt(5) >= 'A' && m.charAt(5) <= 'F'))) && m.endsWith("]") && m.length() == 7)
+				|| (m.startsWith("[>$") && (((m.charAt(3) >= '0' && m.charAt(3) <= '9') || (m.charAt(3) >= 'A' && m.charAt(3) <= 'F')) && ((m.charAt(4) >= '0' && m.charAt(4) <= '9') || (m.charAt(4) >= 'A' && m.charAt(4) <= 'F')) && ((m.charAt(5) >= '0' && m.charAt(5) <= '9') || (m.charAt(5) >= 'A' && m.charAt(5) <= 'F')) && ((m.charAt(6) >= '0' && m.charAt(6) <= '9') || (m.charAt(6) >= 'A' && m.charAt(6) <= 'F'))) && m.endsWith("]") && m.length() == 8))
+			return "ETENDUINDIRECT";
+		else if(m.startsWith("<$") && (((m.charAt(2) >= '0' && m.charAt(2) <= '9') || (m.charAt(2) >= 'A' && m.charAt(2) <= 'F')) && ((m.charAt(3) >= '0' && m.charAt(3) <= '9') || (m.charAt(3) >= 'A' && m.charAt(3) <= 'F'))) && m.length() == 4)
 			return "DIRECT";
-		else if(m.startsWith("[$") && m.endsWith("]") && m.length() == 7)
-			return "ETENDU INDIRECT";
 		else if(m == null || m.isEmpty())
 			return "INHERENT";
-		else if(m.startsWith(",") && m.length() == 2)
+		else if((m.startsWith(",") && (m.charAt(1) == 'X' || m.charAt(1) == 'Y' || m.charAt(1) == 'U' || m.charAt(1) == 'S') && m.length() == 2)
+				|| (m.startsWith(",") && m.charAt(1) == 'P' && m.charAt(2) == 'C' && m.length() == 3))
 			return "INDEXEDEPNULL";
-		else if(m.startsWith(",") && m.length() == 3)
+		else if(m.startsWith(",") && m.charAt(1) == '-' && (m.charAt(2) == 'X' || m.charAt(2) == 'Y' || m.charAt(2) == 'U' || m.charAt(2) == 'S') && m.length() == 3)
 			return "INDEXEAUTODEC1";
-		else if(m.startsWith(",") && m.length() == 4)
+		else if(m.startsWith(",") && m.charAt(1) == '-' && m.charAt(2) == '-' && (m.charAt(3) == 'X' || m.charAt(3) == 'Y' || m.charAt(3) == 'U' || m.charAt(3) == 'S') && m.length() == 4)
 			return "INDEXEAUTODEC2";
-		else if(m.startsWith(",") && m.length() == 3)
+		else if(m.startsWith(",") && (m.charAt(1) == 'X' || m.charAt(1) == 'Y' || m.charAt(1) == 'U' || m.charAt(1) == 'S') && m.charAt(2) == '+' && m.length() == 3)
 			return "INDEXEAUTOINC1";
-		else if(m.startsWith(",") && m.length() == 4)
+		else if(m.startsWith(",") && (m.charAt(1) == 'X' || m.charAt(1) == 'Y' || m.charAt(1) == 'U' || m.charAt(1) == 'S') && m.charAt(2) == '+' && m.charAt(3) == '+' && m.length() == 4)
 			return "INDEXEAUTOINC2";
-		else if(m.startsWith("A,") && m.length() == 3)
-			return "INDEXEDEPABASE' '";
-		else if(m.startsWith("B,") && m.length() == 3)
-			return "INDEXEDEPBBASE' '";
-		else if(m.startsWith("D,") && m.length() == 3)
-			return "INDEXEDEPDBASE' '";
+		else if(m.startsWith("A,") && (m.charAt(2) == 'X' || m.charAt(2) == 'Y' || m.charAt(2) == 'U' || m.charAt(2) == 'S') && m.length() == 3)
+			return "INDEXEDEPA";
+		else if(m.startsWith("B,") && (m.charAt(2) == 'X' || m.charAt(2) == 'Y' || m.charAt(2) == 'U' || m.charAt(2) == 'S') && m.length() == 3)
+			return "INDEXEDEPB";
+		else if(m.startsWith("D,") && (m.charAt(2) == 'X' || m.charAt(2) == 'Y' || m.charAt(2) == 'U' || m.charAt(2) == 'S') && m.length() == 3)
+			return "INDEXEDEPD";
+		else if(m.startsWith("$") && (((m.charAt(1) >= '0' && m.charAt(1) <= '9') || (m.charAt(1) >= 'A' && m.charAt(1) <= 'F')) && ((m.charAt(2) >= '0' && m.charAt(2) <= '9') || (m.charAt(2) >= 'A' && m.charAt(2) <= 'F'))) && m.charAt(3) == ',' && (m.charAt(4) == 'X' || m.charAt(4) == 'Y' || m.charAt(4) == 'U' || m.charAt(4) == 'S') && m.length() == 5)
+			return "INDEXEDEPCONS1OCT";
+		else if(m.startsWith("$") && (((m.charAt(1) >= '0' && m.charAt(1) <= '9') || (m.charAt(1) >= 'A' && m.charAt(1) <= 'F')) && ((m.charAt(2) >= '0' && m.charAt(2) <= '9') || (m.charAt(2) >= 'A' && m.charAt(2) <= 'F')) && ((m.charAt(3) >= '0' && m.charAt(3) <= '9') || (m.charAt(3) >= 'A' && m.charAt(3) <= 'F')) && ((m.charAt(4) >= '0' && m.charAt(4) <= '9') || (m.charAt(4) >= 'A' && m.charAt(4) <= 'F'))) && m.charAt(5) == ',' && (m.charAt(6) == 'X' || m.charAt(6) == 'Y' || m.charAt(6) == 'U' || m.charAt(6) == 'S') && m.length() == 7)
+			return "INDEXEDEPCONS2OCT";
 		else
 			return "FALSE";
 	}
@@ -99,7 +106,7 @@ public class Logique
 	    if (ins != null) ins.accept(mod);
 	}
 	public void ecrireMemoire(int address, int val) {
-	    Memoire.ecrireInt(address, val);
+	    Memoire.ecrire(address, val);
 	    Controller.atualiserCaseMemoire(address);
 	}
 	public void progMemoire(String prog)
@@ -121,11 +128,50 @@ public class Logique
 	        {
 	        	for(int i=0; i<2; i++)
 	        	{
-	        		if(i==0) this.ecrireMemoire(adr, opcode);
+	        		if(i==0) 
+        			{
+	        			if("IMMEDIAT".equals(this.decode(mod)) || "DIRECT".equals(this.decode(mod))) this.ecrireMemoire(adr, opcode);
+	        			else
+	        			{
+	        				String OPCODE = res.substring(0, 2);
+	        				this.ecrireMemoire(adr, Integer.parseInt(OPCODE, 16));
+	        			}
+        			}
 	        		else 
         			{
-        				if("IMMEDIAT".equals(this.decode(mod))) 
-        				this.ecrireMemoire(adr, Integer.parseInt(mod.substring(2), 16)); 
+        				if("IMMEDIAT".equals(this.decode(mod)) || "DIRECT".equals(this.decode(mod))) this.ecrireMemoire(adr, Integer.parseInt(mod.substring(2), 16)); 
+        				else
+        				{
+        					if("INDEXEDEPNULL".equals(this.decode(mod)) && mod.charAt(1) == 'X')
+        					{
+        						String po = res.substring(3, 7).replace("R", "00");
+        						String p1 = String.format("%X", Integer.parseInt(po.substring(0, 4), 2));
+        						String POSTOCTECT = p1 + po.charAt(4);
+        						this.ecrireMemoire(adr, Integer.parseInt(POSTOCTECT, 16)); 
+        					}
+        					else if("INDEXEDEPNULL".equals(this.decode(mod)) && mod.charAt(1) == 'Y')
+        					{
+        						String po = res.substring(3, 7).replace("R", "01");
+        						String p1 = String.format("%X", Integer.parseInt(po.substring(0, 4), 2));
+        						String POSTOCTECT = p1 + po.charAt(4);
+        						this.ecrireMemoire(adr, Integer.parseInt(POSTOCTECT, 16)); 
+        					}
+        					else if("INDEXEDEPNULL".equals(this.decode(mod)) && mod.charAt(1) == 'U')
+        					{
+        						String po = res.substring(3, 7).replace("R", "10");
+        						String p1 = String.format("%X", Integer.parseInt(po.substring(0, 4), 2));
+        						String POSTOCTECT = p1 + po.charAt(4);
+        						this.ecrireMemoire(adr, Integer.parseInt(POSTOCTECT, 16)); 
+        					}
+        					else if("INDEXEDEPNULL".equals(this.decode(mod)) && mod.charAt(1) == 'S')
+        					{
+        						String po = res.substring(3, 7).replace("R", "11");
+        						String p1 = String.format("%X", Integer.parseInt(po.substring(0, 4), 2));
+        						String POSTOCTECT = p1 + po.charAt(4);
+        						this.ecrireMemoire(adr, Integer.parseInt(POSTOCTECT, 16)); 
+        					}
+        					
+        				}
         			}
 	        		adr++;
 	        	}
@@ -134,16 +180,70 @@ public class Logique
 	        {
 	        	for(int i=0; i<3; i++)
 	        	{
-	        		if(i==0) this.ecrireMemoire(adr, opcode);
+	        		if(i==0)
+        			{
+        				if("IMMEDIAT3+".equals(this.decode(mod)) || "ETENDU".equals(this.decode(mod))) this.ecrireMemoire(adr, opcode);
+        				else if("DIRECT".equals(this.decode(mod)))
+        				{
+        					String OPCODE = res.substring(0, res.length()-2);
+        					this.ecrireMemoire(adr, Integer.parseInt(OPCODE.substring(0, 2), 16));
+        				}
+        				else
+        				{
+        					String OPCODE = res.substring(0, 2);
+	        				this.ecrireMemoire(adr, Integer.parseInt(OPCODE, 16));
+        				}
+        			}
 	        		else if(i==1)
         			{
-        				//if("IMMEDIAT".equals(this.decode(mod))) 
-        				this.ecrireMemoire(adr, Integer.parseInt(mod.substring(2, 3), 16)); 
+	        			if("IMMEDIAT3+".equals(this.decode(mod)) || "ETENDU".equals(this.decode(mod)))
+	        			{
+	        				if("IMMEDIAT3+".equals(this.decode(mod)) || ("ETENDU".equals(this.decode(mod)) && mod.charAt(0) == '>'))
+	        				{
+	        					this.ecrireMemoire(adr, Integer.parseInt(mod.substring(2, 4), 16));
+	        				}
+	        				else
+	        				{
+	        					this.ecrireMemoire(adr, Integer.parseInt(mod.substring(1, 3), 16));
+	        				}
+	        			}
+	        			else if("DIRECT".equals(this.decode(mod)))
+        				{
+        					String OPCODE = res.substring(0, res.length()-2);
+        					this.ecrireMemoire(adr, Integer.parseInt(OPCODE.substring(2, 4), 16));
+        				}
+	        			else
+	        			{
+	        				if(mod.charAt(4) == 'X')
+        					{
+        						String po = res.substring(3, 7).replace("R", "00");
+        						String p1 = String.format("%X", Integer.parseInt(po.substring(0, 4), 2));
+        						String POSTOCTECT = p1 + po.charAt(4);
+        						this.ecrireMemoire(adr, Integer.parseInt(POSTOCTECT, 16)); 
+        					}
+	        			}
         			}
 	        		else
 	        		{
-	        			//if("IMMEDIAT".equals(this.decode(mod))) 
-	        				this.ecrireMemoire(adr, Integer.parseInt(mod.substring(4, 5), 16)); 
+	        			if("IMMEDIAT3+".equals(this.decode(mod)) || "ETENDU".equals(this.decode(mod)))
+	        			{
+	        				if("IMMEDIAT3+".equals(this.decode(mod)) || ("ETENDU".equals(this.decode(mod)) && mod.charAt(0) == '>'))
+	        				{
+	        					this.ecrireMemoire(adr, Integer.parseInt(mod.substring(4, 6), 16));
+	        				}
+	        				else
+	        				{
+	        					this.ecrireMemoire(adr, Integer.parseInt(mod.substring(3, 5), 16));
+	        				}
+	        			}
+	        			else if("DIRECT".equals(this.decode(mod)))
+        				{
+        					this.ecrireMemoire(adr, Integer.parseInt(mod.substring(2), 16));
+        				}
+	        			else
+	        			{
+	        				this.ecrireMemoire(adr, Integer.parseInt(mod.substring(1, 3), 16));
+	        			}
 	        		}
 	        		adr++;
 	        	}
@@ -152,7 +252,6 @@ public class Logique
 	        {
 	        	
 	        }
-	        //adr = adr + nbOctect;
 		}
 		
 	}
@@ -188,10 +287,429 @@ public class Logique
 		}
 		else if("ETENDU".equals(m))
 		{
-			int val = Memoire.lireInt(Integer.parseInt(m.substring(1), 16));
+			if(m.length() == 5)
+			{
+				int val = Memoire.lire(Integer.parseInt(m.substring(1), 16));
+				String valHex = String.format("%02X", val);
+				Controller.setAcumA(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			else if(m.length() == 6)
+			{
+				int val = Memoire.lire(Integer.parseInt(m.substring(2), 16));
+				String valHex = String.format("%02X", val);
+				Controller.setAcumA(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+		}
+		else if("ETENDUINDIRECT".equals(is))
+		{
+			if(m.length() == 7) 
+			{
+				int adress = Integer.parseInt(m.substring(2, 6), 16);
+				int v1 = Memoire.lire(adress); String V1 = String.format("%02X", v1);
+				int v2 = Memoire.lire(adress + 1); String V2 = String.format("%02X", v2);
+				String adressEFECTIVE = V1 + V2;
+				int val = Memoire.lire(Integer.parseInt(adressEFECTIVE, 16));
+				String valHex = String.format("%02X", val);
+				Controller.setAcumA(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			else 
+			{
+				int adress = Integer.parseInt(m.substring(3, 7), 16);
+				int v1 = Memoire.lire(adress); String V1 = String.format("%02X", v1);
+				int v2 = Memoire.lire(adress + 1); String V2 = String.format("%02X", v2);
+				String adressEFECTIVE = V1 + V2;
+				int val = Memoire.lire(Integer.parseInt(adressEFECTIVE, 16));
+				String valHex = String.format("%02X", val);
+				Controller.setAcumA(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}	
+		}
+		else if("DIRECT".equals(is))
+		{
+			String V1 = Controller.getRegDP();
+			String V2 = m.substring(2);
+			String adressEFECTIVE = V1 + V2;
+			int val = Memoire.lire(Integer.parseInt(adressEFECTIVE, 16));
 			String valHex = String.format("%02X", val);
 			Controller.setAcumA(valHex);
 			this.atualflags("0 0 0 0 0 0 0 0");
+		}
+		else if("INDEXEDEPNULL".equals(is))
+		{
+			if("X".equals(m.substring(1)))
+			{
+				String adressEFECTIVE = Controller.getRegX();
+				String valHex = String.format("%02X", Memoire.lire(Integer.parseInt(adressEFECTIVE, 16)));
+				Controller.setAcumA(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			else if("Y".equals(m.substring(1)))
+			{
+				String adressEFECTIVE = Controller.getRegY();
+				String valHex = String.format("%02X", Memoire.lire(Integer.parseInt(adressEFECTIVE, 16)));
+				Controller.setAcumA(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			else if("U".equals(m.substring(1)))
+			{
+				String adressEFECTIVE = Controller.getRegPU();
+				String valHex = String.format("%02X", Memoire.lire(Integer.parseInt(adressEFECTIVE, 16)));
+				Controller.setAcumA(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			else if("S".equals(m.substring(1)))
+			{
+				String adressEFECTIVE = Controller.getRegPS();
+				String valHex = String.format("%02X", Memoire.lire(Integer.parseInt(adressEFECTIVE, 16)));
+				Controller.setAcumA(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			else
+			{
+				if("END".equals(Controller.getValPc())) { return; }
+			}
+		}
+		else if("INDEXEAUTODEC1".equals(is))
+		{
+			if("X".equals(m.substring(2)))
+			{
+				int adress = Integer.parseInt(Controller.getRegX(), 16);
+				int adressEFECTIVE = adress - 1;
+				String valHex = String.format("%02X", Memoire.lire(adressEFECTIVE));
+				Controller.setAcumA(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			else if("Y".equals(m.substring(2)))
+			{
+				int adress = Integer.parseInt(Controller.getRegY(), 16);
+				int adressEFECTIVE = adress - 1;
+				String valHex = String.format("%02X", Memoire.lire(adressEFECTIVE));
+				Controller.setAcumA(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			else if("U".equals(m.substring(2)))
+			{
+				int adress = Integer.parseInt(Controller.getRegPU(), 16);
+				int adressEFECTIVE = adress - 1;
+				String valHex = String.format("%02X", Memoire.lire(adressEFECTIVE));
+				Controller.setAcumA(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			else if("S".equals(m.substring(2)))
+			{
+				int adress = Integer.parseInt(Controller.getRegPS(), 16);
+				int adressEFECTIVE = adress - 1;
+				String valHex = String.format("%02X", Memoire.lire(adressEFECTIVE));
+				Controller.setAcumA(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			else
+			{
+				if("END".equals(Controller.getValPc())) { return; }
+			}
+		}
+		else if("INDEXEAUTODEC2".equals(is))
+		{
+			if("X".equals(m.substring(3)))
+			{
+				int adress = Integer.parseInt(Controller.getRegX(), 16);
+				int adressEFECTIVE = adress - 2;
+				String valHex = String.format("%02X", Memoire.lire(adressEFECTIVE));
+				Controller.setAcumA(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			else if("Y".equals(m.substring(3)))
+			{
+				int adress = Integer.parseInt(Controller.getRegY(), 16);
+				int adressEFECTIVE = adress - 2;
+				String valHex = String.format("%02X", Memoire.lire(adressEFECTIVE));
+				Controller.setAcumA(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			else if("U".equals(m.substring(3)))
+			{
+				int adress = Integer.parseInt(Controller.getRegPU(), 16);
+				int adressEFECTIVE = adress - 2;
+				String valHex = String.format("%02X", Memoire.lire(adressEFECTIVE));
+				Controller.setAcumA(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			else if("S".equals(m.substring(3)))
+			{
+				int adress = Integer.parseInt(Controller.getRegPS(), 16);
+				int adressEFECTIVE = adress - 2;
+				String valHex = String.format("%02X", Memoire.lire(adressEFECTIVE));
+				Controller.setAcumA(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			else
+			{
+				if("END".equals(Controller.getValPc())) { return; }
+			}
+		}
+		else if("INDEXEAUTOINC1".equals(is))
+		{
+			if("X".equals(m.substring(1)))
+			{
+				int adressEFECTIVE = Integer.parseInt(Controller.getRegX(), 16);
+				String valHex = String.format("%02X", Memoire.lire(adressEFECTIVE));
+				Controller.setAcumA(valHex);
+				int adress = adressEFECTIVE + 1;
+				Controller.setRegX(String.format("%04X", adress));
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			else if("Y".equals(m.substring(1)))
+			{
+				int adressEFECTIVE = Integer.parseInt(Controller.getRegY(), 16);
+				String valHex = String.format("%02X", Memoire.lire(adressEFECTIVE));
+				Controller.setAcumA(valHex);
+				int adress = adressEFECTIVE + 1;
+				Controller.setRegY(String.format("%04X", adress));
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			else if("U".equals(m.substring(1)))
+			{
+				int adressEFECTIVE = Integer.parseInt(Controller.getRegPU(), 16);
+				String valHex = String.format("%02X", Memoire.lire(adressEFECTIVE));
+				Controller.setAcumA(valHex);
+				int adress = adressEFECTIVE + 1;
+				Controller.setRegPU(String.format("%04X", adress));
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			else if("S".equals(m.substring(1)))
+			{
+				int adressEFECTIVE = Integer.parseInt(Controller.getRegPS(), 16);
+				String valHex = String.format("%02X", Memoire.lire(adressEFECTIVE));
+				Controller.setAcumA(valHex);
+				int adress = adressEFECTIVE + 1;
+				Controller.setRegPS(String.format("%04X", adress));
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			else
+			{
+				if("END".equals(Controller.getValPc())) { return; }
+			}
+		}
+		else if("INDEXEAUTOINC2".equals(is))
+		{
+			if("X".equals(m.substring(1)))
+			{
+				int adressEFECTIVE = Integer.parseInt(Controller.getRegX(), 16);
+				String valHex = String.format("%02X", Memoire.lire(adressEFECTIVE));
+				Controller.setAcumA(valHex);
+				int adress = adressEFECTIVE + 2;
+				Controller.setRegX(String.format("%04X", adress));
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			else if("Y".equals(m.substring(1)))
+			{
+				int adressEFECTIVE = Integer.parseInt(Controller.getRegY(), 16);
+				String valHex = String.format("%02X", Memoire.lire(adressEFECTIVE));
+				Controller.setAcumA(valHex);
+				int adress = adressEFECTIVE + 2;
+				Controller.setRegY(String.format("%04X", adress));
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			else if("U".equals(m.substring(1)))
+			{
+				int adressEFECTIVE = Integer.parseInt(Controller.getRegPU(), 16);
+				String valHex = String.format("%02X", Memoire.lire(adressEFECTIVE));
+				Controller.setAcumA(valHex);
+				int adress = adressEFECTIVE + 2;
+				Controller.setRegPU(String.format("%04X", adress));
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			else if("S".equals(m.substring(1)))
+			{
+				int adressEFECTIVE = Integer.parseInt(Controller.getRegPS(), 16);
+				String valHex = String.format("%02X", Memoire.lire(adressEFECTIVE));
+				Controller.setAcumA(valHex);
+				int adress = adressEFECTIVE + 2;
+				Controller.setRegPS(String.format("%04X", adress));
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			else
+			{
+				if("END".equals(Controller.getValPc())) { return; }
+			}
+		}
+		else if("INDEXEDEPA".equals(is))
+		{
+			if("X".equals(m.substring(2)))
+			{
+				String adressEFECTIVE = OpFlags.somme(Controller.getRegX(), Controller.getAcumA());
+				String valHex = String.format("%02X", Memoire.lire(Integer.parseInt(adressEFECTIVE, 16)));
+				Controller.setAcumA(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			if("Y".equals(m.substring(2)))
+			{
+				String adressEFECTIVE = OpFlags.somme(Controller.getRegY(), Controller.getAcumA());
+				String valHex = String.format("%02X", Memoire.lire(Integer.parseInt(adressEFECTIVE, 16)));
+				Controller.setAcumA(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			if("U".equals(m.substring(2)))
+			{
+				String adressEFECTIVE = OpFlags.somme(Controller.getRegPU(), Controller.getAcumA());
+				String valHex = String.format("%02X", Memoire.lire(Integer.parseInt(adressEFECTIVE, 16)));
+				Controller.setAcumA(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			if("S".equals(m.substring(2)))
+			{
+				String adressEFECTIVE = OpFlags.somme(Controller.getRegPS(), Controller.getAcumA());
+				String valHex = String.format("%02X", Memoire.lire(Integer.parseInt(adressEFECTIVE, 16)));
+				Controller.setAcumA(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			else
+			{
+				if("END".equals(Controller.getValPc())) { return; }
+			}
+		}
+		else if("INDEXEDEPB".equals(is))
+		{
+			if("X".equals(m.substring(2)))
+			{
+				String adressEFECTIVE = OpFlags.somme(Controller.getRegX(), Controller.getAcumB());
+				String valHex = String.format("%02X", Memoire.lire(Integer.parseInt(adressEFECTIVE, 16)));
+				Controller.setAcumA(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			if("Y".equals(m.substring(2)))
+			{
+				String adressEFECTIVE = OpFlags.somme(Controller.getRegY(), Controller.getAcumB());
+				String valHex = String.format("%02X", Memoire.lire(Integer.parseInt(adressEFECTIVE, 16)));
+				Controller.setAcumA(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			if("U".equals(m.substring(2)))
+			{
+				String adressEFECTIVE = OpFlags.somme(Controller.getRegPU(), Controller.getAcumB());
+				String valHex = String.format("%02X", Memoire.lire(Integer.parseInt(adressEFECTIVE, 16)));
+				Controller.setAcumA(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			if("S".equals(m.substring(2)))
+			{
+				String adressEFECTIVE = OpFlags.somme(Controller.getRegPS(), Controller.getAcumB());
+				String valHex = String.format("%02X", Memoire.lire(Integer.parseInt(adressEFECTIVE, 16)));
+				Controller.setAcumA(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			else
+			{
+				if("END".equals(Controller.getValPc())) { return; }
+			}
+		}
+		else if("INDEXEDEPD".equals(is))
+		{
+			if("X".equals(m.substring(2)))
+			{
+				String adressEFECTIVE = OpFlags.somme(Controller.getRegX(), Controller.getAcumD());
+				String valHex = String.format("%02X", Memoire.lire(Integer.parseInt(adressEFECTIVE, 16)));
+				Controller.setAcumA(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			if("Y".equals(m.substring(2)))
+			{
+				String adressEFECTIVE = OpFlags.somme(Controller.getRegY(), Controller.getAcumD());
+				String valHex = String.format("%02X", Memoire.lire(Integer.parseInt(adressEFECTIVE, 16)));
+				Controller.setAcumA(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			if("U".equals(m.substring(2)))
+			{
+				String adressEFECTIVE = OpFlags.somme(Controller.getRegPU(), Controller.getAcumD());
+				String valHex = String.format("%02X", Memoire.lire(Integer.parseInt(adressEFECTIVE, 16)));
+				Controller.setAcumA(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			if("S".equals(m.substring(2)))
+			{
+				String adressEFECTIVE = OpFlags.somme(Controller.getRegPS(), Controller.getAcumD());
+				String valHex = String.format("%02X", Memoire.lire(Integer.parseInt(adressEFECTIVE, 16)));
+				Controller.setAcumA(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			else
+			{
+				if("END".equals(Controller.getValPc())) { return; }
+			}
+		}
+		else if("INDEXEDEPCONS1OCT".equals(is))
+		{
+			if("X".equals(m.substring(4)))
+			{
+				String adressEFECTIVE = OpFlags.somme(Controller.getRegX(), m.substring(1, 3));
+				String valHex = String.format("%02X", Memoire.lire(Integer.parseInt(String.format("%04X",adressEFECTIVE), 16)));
+				Controller.setAcumA(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			if("Y".equals(m.substring(2)))
+			{
+				String adressEFECTIVE = OpFlags.somme(Controller.getRegY(), m.substring(1, 3));
+				String valHex = String.format("%02X", Memoire.lire(Integer.parseInt(String.format("%04X",adressEFECTIVE), 16)));
+				Controller.setAcumA(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			if("U".equals(m.substring(2)))
+			{
+				String adressEFECTIVE = OpFlags.somme(Controller.getRegPU(), m.substring(1, 3));
+				String valHex = String.format("%02X", Memoire.lire(Integer.parseInt(String.format("%04X",adressEFECTIVE), 16)));
+				Controller.setAcumA(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			if("S".equals(m.substring(2)))
+			{
+				String adressEFECTIVE = OpFlags.somme(Controller.getRegPS(), m.substring(1, 3));
+				String valHex = String.format("%02X", Memoire.lire(Integer.parseInt(String.format("%04X",adressEFECTIVE), 16)));
+				Controller.setAcumA(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			else
+			{
+				if("END".equals(Controller.getValPc())) { return; }
+			}
+		}
+		else if("INDEXEDEPCONS2OCT".equals(is))
+		{
+			if("X".equals(m.substring(6)))
+			{
+				String adressEFECTIVE = OpFlags.somme(Controller.getRegX(), m.substring(1, 5));
+				String valHex = String.format("%02X", Memoire.lire(Integer.parseInt(String.format("%04X",adressEFECTIVE), 16)));
+				Controller.setAcumA(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			if("Y".equals(m.substring(6)))
+			{
+				String adressEFECTIVE = OpFlags.somme(Controller.getRegY(), m.substring(1, 5));
+				String valHex = String.format("%02X", Memoire.lire(Integer.parseInt(String.format("%04X",adressEFECTIVE), 16)));
+				Controller.setAcumA(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			if("U".equals(m.substring(6)))
+			{
+				String adressEFECTIVE = OpFlags.somme(Controller.getRegPU(), m.substring(1, 5));
+				String valHex = String.format("%02X", Memoire.lire(Integer.parseInt(String.format("%04X",adressEFECTIVE), 16)));
+				Controller.setAcumA(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			if("S".equals(m.substring(6)))
+			{
+				String adressEFECTIVE = OpFlags.somme(Controller.getRegPS(), m.substring(1, 5));
+				String valHex = String.format("%02X", Memoire.lire(Integer.parseInt(String.format("%04X",adressEFECTIVE), 16)));
+				Controller.setAcumA(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			else
+			{
+				if("END".equals(Controller.getValPc())) { return; }
+			}
 		}
 	}
 	public void ldb(String m)
@@ -203,12 +721,431 @@ public class Logique
 			Controller.setAcumB(val);
 			this.atualflags("0 0 0 0 0 0 0 0");
 		}
-		else if("ETENDU".equals(m))
+		else if("ETENDU".equals(is))
 		{
-			int val = Memoire.lireInt(Integer.parseInt(m.substring(1), 16));
+			if(m.length() == 5)
+			{
+				int val = Memoire.lire(Integer.parseInt(m.substring(1), 16));
+				String valHex = String.format("%02X", val);
+				Controller.setAcumB(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			else if(m.length() == 6)
+			{
+				int val = Memoire.lire(Integer.parseInt(m.substring(2), 16));
+				String valHex = String.format("%02X", val);
+				Controller.setAcumB(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+		}
+		else if("ETENDUINDIRECT".equals(is))
+		{
+			if(m.length() == 7) 
+			{
+				int adress = Integer.parseInt(m.substring(2, 6), 16);
+				int v1 = Memoire.lire(adress); String V1 = String.format("%02X", v1);
+				int v2 = Memoire.lire(adress + 1); String V2 = String.format("%02X", v2);
+				String adressEFECTIVE = V1 + V2;
+				int val = Memoire.lire(Integer.parseInt(adressEFECTIVE, 16));
+				String valHex = String.format("%02X", val);
+				Controller.setAcumB(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			else 
+			{
+				int adress = Integer.parseInt(m.substring(3, 7), 16);
+				int v1 = Memoire.lire(adress); String V1 = String.format("%02X", v1);
+				int v2 = Memoire.lire(adress + 1); String V2 = String.format("%02X", v2);
+				String adressEFECTIVE = V1 + V2;
+				int val = Memoire.lire(Integer.parseInt(adressEFECTIVE, 16));
+				String valHex = String.format("%02X", val);
+				Controller.setAcumB(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+		}
+		else if("DIRECT".equals(is))
+		{
+			String V1 = Controller.getRegDP();
+			String V2 = m.substring(2);
+			String adressEFECTIVE = V1 + V2;
+			int val = Memoire.lire(Integer.parseInt(adressEFECTIVE, 16));
 			String valHex = String.format("%02X", val);
 			Controller.setAcumB(valHex);
 			this.atualflags("0 0 0 0 0 0 0 0");
+		}
+		else if("INDEXEDEPNULL".equals(is))
+		{
+			if("X".equals(m.substring(1)))
+			{
+				String adressEFECTIVE = Controller.getRegX();
+				String valHex = String.format("%02X", Memoire.lire(Integer.parseInt(adressEFECTIVE, 16)));
+				Controller.setAcumB(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			else if("Y".equals(m.substring(1)))
+			{
+				String adressEFECTIVE = Controller.getRegY();
+				String valHex = String.format("%02X", Memoire.lire(Integer.parseInt(adressEFECTIVE, 16)));
+				Controller.setAcumB(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			else if("U".equals(m.substring(1)))
+			{
+				String adressEFECTIVE = Controller.getRegPU();
+				String valHex = String.format("%02X", Memoire.lire(Integer.parseInt(adressEFECTIVE, 16)));
+				Controller.setAcumB(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			else if("S".equals(m.substring(1)))
+			{
+				String adressEFECTIVE = Controller.getRegPS();
+				String valHex = String.format("%02X", Memoire.lire(Integer.parseInt(adressEFECTIVE, 16)));
+				Controller.setAcumB(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			else
+			{
+				if("END".equals(Controller.getValPc())) { return; }
+			}
+		}
+		else if("INDEXEAUTODEC1".equals(is))
+		{
+			if("X".equals(m.substring(2)))
+			{
+				int adress = Integer.parseInt(Controller.getRegX(), 16);
+				int adressEFECTIVE = adress - 1;
+				String valHex = String.format("%02X", Memoire.lire(adressEFECTIVE));
+				Controller.setAcumB(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			else if("Y".equals(m.substring(2)))
+			{
+				int adress = Integer.parseInt(Controller.getRegY(), 16);
+				int adressEFECTIVE = adress - 1;
+				String valHex = String.format("%02X", Memoire.lire(adressEFECTIVE));
+				Controller.setAcumB(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			else if("U".equals(m.substring(2)))
+			{
+				int adress = Integer.parseInt(Controller.getRegPU(), 16);
+				int adressEFECTIVE = adress - 1;
+				String valHex = String.format("%02X", Memoire.lire(adressEFECTIVE));
+				Controller.setAcumB(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			else if("S".equals(m.substring(2)))
+			{
+				int adress = Integer.parseInt(Controller.getRegPS(), 16);
+				int adressEFECTIVE = adress - 1;
+				String valHex = String.format("%02X", Memoire.lire(adressEFECTIVE));
+				Controller.setAcumB(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			else
+			{
+				if("END".equals(Controller.getValPc())) { return; }
+			}
+		}
+		else if("INDEXEAUTODEC2".equals(is))
+		{
+			if("X".equals(m.substring(3)))
+			{
+				int adress = Integer.parseInt(Controller.getRegX(), 16);
+				int adressEFECTIVE = adress - 2;
+				String valHex = String.format("%02X", Memoire.lire(adressEFECTIVE));
+				Controller.setAcumB(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			else if("Y".equals(m.substring(3)))
+			{
+				int adress = Integer.parseInt(Controller.getRegY(), 16);
+				int adressEFECTIVE = adress - 2;
+				String valHex = String.format("%02X", Memoire.lire(adressEFECTIVE));
+				Controller.setAcumB(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			else if("U".equals(m.substring(3)))
+			{
+				int adress = Integer.parseInt(Controller.getRegPU(), 16);
+				int adressEFECTIVE = adress - 2;
+				String valHex = String.format("%02X", Memoire.lire(adressEFECTIVE));
+				Controller.setAcumB(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			else if("S".equals(m.substring(3)))
+			{
+				int adress = Integer.parseInt(Controller.getRegPS(), 16);
+				int adressEFECTIVE = adress - 2;
+				String valHex = String.format("%02X", Memoire.lire(adressEFECTIVE));
+				Controller.setAcumB(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			else
+			{
+				if("END".equals(Controller.getValPc())) { return; }
+			}
+		}
+		else if("INDEXEAUTOINC1".equals(is))
+		{
+			if("X".equals(m.substring(1)))
+			{
+				int adressEFECTIVE = Integer.parseInt(Controller.getRegX(), 16);
+				String valHex = String.format("%02X", Memoire.lire(adressEFECTIVE));
+				Controller.setAcumB(valHex);
+				int adress = adressEFECTIVE + 1;
+				Controller.setRegX(String.format("%04X", adress));
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			else if("Y".equals(m.substring(1)))
+			{
+				int adressEFECTIVE = Integer.parseInt(Controller.getRegY(), 16);
+				String valHex = String.format("%02X", Memoire.lire(adressEFECTIVE));
+				Controller.setAcumB(valHex);
+				int adress = adressEFECTIVE + 1;
+				Controller.setRegY(String.format("%04X", adress));
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			else if("U".equals(m.substring(1)))
+			{
+				int adressEFECTIVE = Integer.parseInt(Controller.getRegPU(), 16);
+				String valHex = String.format("%02X", Memoire.lire(adressEFECTIVE));
+				Controller.setAcumB(valHex);
+				int adress = adressEFECTIVE + 1;
+				Controller.setRegPU(String.format("%04X", adress));
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			else if("S".equals(m.substring(1)))
+			{
+				int adressEFECTIVE = Integer.parseInt(Controller.getRegPS(), 16);
+				String valHex = String.format("%02X", Memoire.lire(adressEFECTIVE));
+				Controller.setAcumB(valHex);
+				int adress = adressEFECTIVE + 1;
+				Controller.setRegPS(String.format("%04X", adress));
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			else
+			{
+				if("END".equals(Controller.getValPc())) { return; }
+			}
+		}
+		else if("INDEXEAUTOINC2".equals(is))
+		{
+			if("X".equals(m.substring(1)))
+			{
+				int adressEFECTIVE = Integer.parseInt(Controller.getRegX(), 16);
+				String valHex = String.format("%02X", Memoire.lire(adressEFECTIVE));
+				Controller.setAcumB(valHex);
+				int adress = adressEFECTIVE + 2;
+				Controller.setRegX(String.format("%04X", adress));
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			else if("Y".equals(m.substring(1)))
+			{
+				int adressEFECTIVE = Integer.parseInt(Controller.getRegY(), 16);
+				String valHex = String.format("%02X", Memoire.lire(adressEFECTIVE));
+				Controller.setAcumB(valHex);
+				int adress = adressEFECTIVE + 2;
+				Controller.setRegY(String.format("%04X", adress));
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			else if("U".equals(m.substring(1)))
+			{
+				int adressEFECTIVE = Integer.parseInt(Controller.getRegPU(), 16);
+				String valHex = String.format("%02X", Memoire.lire(adressEFECTIVE));
+				Controller.setAcumB(valHex);
+				int adress = adressEFECTIVE + 2;
+				Controller.setRegPU(String.format("%04X", adress));
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			else if("S".equals(m.substring(1)))
+			{
+				int adressEFECTIVE = Integer.parseInt(Controller.getRegPS(), 16);
+				String valHex = String.format("%02X", Memoire.lire(adressEFECTIVE));
+				Controller.setAcumB(valHex);
+				int adress = adressEFECTIVE + 2;
+				Controller.setRegPS(String.format("%04X", adress));
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			else
+			{
+				if("END".equals(Controller.getValPc())) { return; }
+			}
+		}
+		else if("INDEXEDEPA".equals(is))
+		{
+			if("X".equals(m.substring(2)))
+			{
+				String adressEFECTIVE = OpFlags.somme(Controller.getRegX(), Controller.getAcumA());
+				String valHex = String.format("%02X", Memoire.lire(Integer.parseInt(adressEFECTIVE, 16)));
+				Controller.setAcumB(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			if("Y".equals(m.substring(2)))
+			{
+				String adressEFECTIVE = OpFlags.somme(Controller.getRegY(), Controller.getAcumA());
+				String valHex = String.format("%02X", Memoire.lire(Integer.parseInt(adressEFECTIVE, 16)));
+				Controller.setAcumB(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			if("U".equals(m.substring(2)))
+			{
+				String adressEFECTIVE = OpFlags.somme(Controller.getRegPU(), Controller.getAcumA());
+				String valHex = String.format("%02X", Memoire.lire(Integer.parseInt(adressEFECTIVE, 16)));
+				Controller.setAcumB(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			if("S".equals(m.substring(2)))
+			{
+				String adressEFECTIVE = OpFlags.somme(Controller.getRegPS(), Controller.getAcumA());
+				String valHex = String.format("%02X", Memoire.lire(Integer.parseInt(adressEFECTIVE, 16)));
+				Controller.setAcumB(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			else
+			{
+				if("END".equals(Controller.getValPc())) { return; }
+			}
+		}
+		else if("INDEXEDEPB".equals(is))
+		{
+			if("X".equals(m.substring(2)))
+			{
+				String adressEFECTIVE = OpFlags.somme(Controller.getRegX(), Controller.getAcumB());
+				String valHex = String.format("%02X", Memoire.lire(Integer.parseInt(adressEFECTIVE, 16)));
+				Controller.setAcumB(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			if("Y".equals(m.substring(2)))
+			{
+				String adressEFECTIVE = OpFlags.somme(Controller.getRegY(), Controller.getAcumB());
+				String valHex = String.format("%02X", Memoire.lire(Integer.parseInt(adressEFECTIVE, 16)));
+				Controller.setAcumB(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			if("U".equals(m.substring(2)))
+			{
+				String adressEFECTIVE = OpFlags.somme(Controller.getRegPU(), Controller.getAcumB());
+				String valHex = String.format("%02X", Memoire.lire(Integer.parseInt(adressEFECTIVE, 16)));
+				Controller.setAcumB(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			if("S".equals(m.substring(2)))
+			{
+				String adressEFECTIVE = OpFlags.somme(Controller.getRegPS(), Controller.getAcumB());
+				String valHex = String.format("%02X", Memoire.lire(Integer.parseInt(adressEFECTIVE, 16)));
+				Controller.setAcumB(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			else
+			{
+				if("END".equals(Controller.getValPc())) { return; }
+			}
+		}
+		else if("INDEXEDEPD".equals(is))
+		{
+			if("X".equals(m.substring(2)))
+			{
+				String adressEFECTIVE = OpFlags.somme(Controller.getRegX(), Controller.getAcumD());
+				String valHex = String.format("%02X", Memoire.lire(Integer.parseInt(adressEFECTIVE, 16)));
+				Controller.setAcumB(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			if("Y".equals(m.substring(2)))
+			{
+				String adressEFECTIVE = OpFlags.somme(Controller.getRegY(), Controller.getAcumD());
+				String valHex = String.format("%02X", Memoire.lire(Integer.parseInt(adressEFECTIVE, 16)));
+				Controller.setAcumB(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			if("U".equals(m.substring(2)))
+			{
+				String adressEFECTIVE = OpFlags.somme(Controller.getRegPU(), Controller.getAcumD());
+				String valHex = String.format("%02X", Memoire.lire(Integer.parseInt(adressEFECTIVE, 16)));
+				Controller.setAcumB(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			if("S".equals(m.substring(2)))
+			{
+				String adressEFECTIVE = OpFlags.somme(Controller.getRegPS(), Controller.getAcumD());
+				String valHex = String.format("%02X", Memoire.lire(Integer.parseInt(adressEFECTIVE, 16)));
+				Controller.setAcumB(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			else
+			{
+				if("END".equals(Controller.getValPc())) { return; }
+			}
+		}
+		else if("INDEXEDEPCONS1OCT".equals(is))
+		{
+			if("X".equals(m.substring(4)))
+			{
+				String adressEFECTIVE = OpFlags.somme(Controller.getRegX(), m.substring(1, 3));
+				String valHex = String.format("%02X", Memoire.lire(Integer.parseInt(String.format("%04X",adressEFECTIVE), 16)));
+				Controller.setAcumB(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			if("Y".equals(m.substring(2)))
+			{
+				String adressEFECTIVE = OpFlags.somme(Controller.getRegY(), m.substring(1, 3));
+				String valHex = String.format("%02X", Memoire.lire(Integer.parseInt(String.format("%04X",adressEFECTIVE), 16)));
+				Controller.setAcumB(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			if("U".equals(m.substring(2)))
+			{
+				String adressEFECTIVE = OpFlags.somme(Controller.getRegPU(), m.substring(1, 3));
+				String valHex = String.format("%02X", Memoire.lire(Integer.parseInt(String.format("%04X",adressEFECTIVE), 16)));
+				Controller.setAcumB(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			if("S".equals(m.substring(2)))
+			{
+				String adressEFECTIVE = OpFlags.somme(Controller.getRegPS(), m.substring(1, 3));
+				String valHex = String.format("%02X", Memoire.lire(Integer.parseInt(String.format("%04X",adressEFECTIVE), 16)));
+				Controller.setAcumB(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			else
+			{
+				if("END".equals(Controller.getValPc())) { return; }
+			}
+		}
+		else if("INDEXEDEPCONS2OCT".equals(is))
+		{
+			if("X".equals(m.substring(6)))
+			{
+				String adressEFECTIVE = OpFlags.somme(Controller.getRegX(), m.substring(1, 5));
+				String valHex = String.format("%02X", Memoire.lire(Integer.parseInt(String.format("%04X",adressEFECTIVE), 16)));
+				Controller.setAcumB(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			if("Y".equals(m.substring(6)))
+			{
+				String adressEFECTIVE = OpFlags.somme(Controller.getRegY(), m.substring(1, 5));
+				String valHex = String.format("%02X", Memoire.lire(Integer.parseInt(String.format("%04X",adressEFECTIVE), 16)));
+				Controller.setAcumB(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			if("U".equals(m.substring(6)))
+			{
+				String adressEFECTIVE = OpFlags.somme(Controller.getRegPU(), m.substring(1, 5));
+				String valHex = String.format("%02X", Memoire.lire(Integer.parseInt(String.format("%04X",adressEFECTIVE), 16)));
+				Controller.setAcumB(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			if("S".equals(m.substring(6)))
+			{
+				String adressEFECTIVE = OpFlags.somme(Controller.getRegPS(), m.substring(1, 5));
+				String valHex = String.format("%02X", Memoire.lire(Integer.parseInt(String.format("%04X",adressEFECTIVE), 16)));
+				Controller.setAcumB(valHex);
+				this.atualflags("0 0 0 0 0 0 0 0");
+			}
+			else
+			{
+				if("END".equals(Controller.getValPc())) { return; }
+			}
 		}
 		
 	}
@@ -220,6 +1157,18 @@ public class Logique
 		instructions.put("ABX", logic::abx);
 		opcode.put("LDAIMMEDIAT", "86_2");
 		opcode.put("LDAETENDU", "B6_3");
+		opcode.put("LDAETENDUINDIRECT", "B69F_4");
+		opcode.put("LDADIRECT", "96_2");
+		opcode.put("LDAINDEXEDEPNULL", "A6_1R04_2");
+		opcode.put("LDAINDEXEAUTODEC1", "A6_1R02_2");
+		opcode.put("LDAINDEXEAUTODEC2", "A6_1R03_2");
+		opcode.put("LDAINDEXEAUTOINC1", "A6_1R00_2");
+		opcode.put("LDAINDEXEAUTOINC2", "A6_1R01_2");
+		opcode.put("LDAINDEXEDEPA", "A6_1R06_2");
+		opcode.put("LDAINDEXEDEPB", "A6_1R05_2");
+		opcode.put("LDAINDEXEDEPD", "A6_1R0B_2");
+		opcode.put("LDAINDEXEDEPCONS1OCT", "A6_1R08_3");
+		opcode.put("LDAINDEXEDEPCONS2OCT", "A6_1R09_4");
 		opcode.put("LDBIMMEDIAT", "C6_2");
 		opcode.put("ABXINHERENT", "3A_1");
 	}

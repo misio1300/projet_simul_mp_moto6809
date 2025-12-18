@@ -14,7 +14,13 @@ public class MOTOController
 	@FXML
 	private TextArea txtCLI;
 	@FXML
-	private TextField txtPC;
+	private TextField valPc;
+	@FXML
+	private TextField regDP;
+	@FXML
+	private TextField regPU;
+	@FXML
+	private TextField regPS;
 	@FXML
 	private TextField proxIns; //pour le text prox inst
 	@FXML
@@ -42,9 +48,13 @@ public class MOTOController
 	@FXML
 	private TextField acumA;
 	@FXML
+	private TextField acumD;
+	@FXML
 	byte[] mem = new byte[65536];
 	@FXML
 	private TextField regX;
+	@FXML
+	private TextField regY;
 	private Logique logic;
 	//private double x;
 	private boolean enterclick = false;
@@ -145,12 +155,12 @@ public class MOTOController
                 "END");
     	    	tabProg.getItems().add(ligne);
     	    	String pc = "$" + String.format("%04X", adress);
-    	    	this.setTxtPc(pc);
+    	    	this.setValPc(pc);
     	    }
 	    	else
 	    	{
 		    	String pc = "$" + String.format("%04X", adress);
-		    	this.setTxtPc(pc);
+		    	this.setValPc(pc);
 		        ObservableList<String> ligne = FXCollections.observableArrayList(
 		        String.format("%04X", adress),
 		        instruction);
@@ -217,8 +227,11 @@ public class MOTOController
 	public void setProxIns(String b) {
 		javafx.application.Platform.runLater(() -> { this.proxIns.setText(b);});
 	}
-	public void setTxtPc(String b) {
-		javafx.application.Platform.runLater(() -> { this.txtPC.setText(b);});
+	public void setValPc(String b) {
+		javafx.application.Platform.runLater(() -> { this.valPc.setText(b);});
+	}
+	public String getValPc() {
+		return valPc.getText();
 	}
 	public void setAcumA(String b) {
 		javafx.application.Platform.runLater(() -> { this.acumA.setText(b);});
@@ -227,11 +240,42 @@ public class MOTOController
 	{
 		return this.acumA.getText();
 	}
+	public void setAcumD(String b) {
+		javafx.application.Platform.runLater(() -> { this.acumD.setText(b);});
+	}
+	public String getAcumD() 
+	{
+		return this.acumD.getText();
+	}
 	public String getRegX() {
 		return regX.getText();
 	}
 	public void setRegX(String x) {
 		javafx.application.Platform.runLater(() -> { this.regX.setText(x);});
+	}
+	public String getRegY() {
+		return regY.getText();
+	}
+	public void setRegY(String x) {
+		javafx.application.Platform.runLater(() -> { this.regY.setText(x);});
+	}
+	public String getRegDP() {
+		return regDP.getText();
+	}
+	public void setRegDP(String x) {
+		javafx.application.Platform.runLater(() -> { this.regDP.setText(x);});
+	}
+	public String getRegPU() {
+		return regPU.getText();
+	}
+	public void setRegPU(String x) {
+		javafx.application.Platform.runLater(() -> { this.regPU.setText(x);});
+	}
+	public String getRegPS() {
+		return regPS.getText();
+	}
+	public void setRegPS(String x) {
+		javafx.application.Platform.runLater(() -> { this.regPS.setText(x);});
 	}
 	public void setFlags(String x) {
 		javafx.application.Platform.runLater(() -> { this.flags.setText(x);});
@@ -240,7 +284,7 @@ public class MOTOController
 	    tabRam.getItems().clear();
 
 	    for (int adr = 0; adr < Memoire.RAM_SIZE; adr++) {
-	        int val = Memoire.lireInt(adr);
+	        int val = Memoire.lire(adr);
 	        ObservableList<String> ligne = FXCollections.observableArrayList(
 	            String.format("%04X", adr),
 	            String.format("%02X", val)
@@ -252,7 +296,7 @@ public class MOTOController
 	    tabRom.getItems().clear();
 
 	    for (int adr = Memoire.ROM_START; adr < Memoire.MEM_SIZE; adr++) {
-	        int val = Memoire.lireInt(adr);
+	        int val = Memoire.lire(adr);
 	        ObservableList<String> ligne = FXCollections.observableArrayList(
 	            String.format("%04X", adr),
 	            String.format("%02X", val)
@@ -261,7 +305,7 @@ public class MOTOController
 	    }
 	}
 	public void atualiserCaseMemoire(int address) {
-	    int val = Memoire.lireInt(address);
+	    int val = Memoire.lire(address);
 	    String valHex = String.format("%02X", val);
 
 	    if (address < Memoire.ROM_START) {
@@ -279,8 +323,9 @@ public class MOTOController
 	{
 		this.setAcumA("00");
 		this.setAcumB("00");
-		this.setTxtPc("");
+		this.setValPc("");
 		this.setRegX("0000");
+		this.setRegDP("00");
 		this.setProxIns("");
 		this.setTxtCli("");
 		this.initFlags();

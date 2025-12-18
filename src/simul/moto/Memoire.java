@@ -12,23 +12,13 @@ public class Memoire
     // Memória total (RAM + ROM)
     private static final byte[] mem = new byte[MEM_SIZE];
 
-    // Ler byte da memória
-    public static byte lire(int address) {
-        return mem[address];
-    }
-
-    // Escrever byte
-    public static void ecrire(int address, byte value) {
-        mem[address] = value;
-    }
-
     // Escrever inteiro de 0–255
-    public static void ecrireInt(int address, int value) {
+    public static void ecrire(int address, int value) {
         mem[address] = (byte)(value & 0xFF);
     }
 
     // Retornar valor sem sinal (0–255)
-    public static int lireInt(int address) {
+    public static int lire(int address) {
         return mem[address] & 0xFF;
     }
 
