@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
@@ -8,6 +9,11 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
@@ -29,6 +35,9 @@
                               <TableColumn fx:id="tabProgC1" prefWidth="75.0" text="C1" />
                               <TableColumn fx:id="tabProgC2" prefWidth="183.20001525878905" text="C2" />
                            </columns>
+                           <effect>
+                              <InnerShadow />
+                           </effect>
                         </TableView>
                      </children>
                   </AnchorPane>
@@ -46,6 +55,9 @@
                       <TableColumn fx:id="tabRamC1" prefWidth="79.19994813203812" text="C1" />
                       <TableColumn fx:id="tabRamC2" prefWidth="180.00001525878906" text="C2" />
                     </columns>
+                     <effect>
+                        <InnerShadow />
+                     </effect>
                   </TableView>
                </children>
             </AnchorPane>
@@ -60,6 +72,9 @@
                         <TableColumn fx:id="tabRomC1" prefWidth="79.19994813203812" text="C1" />
                         <TableColumn fx:id="tabRomC2" prefWidth="180.00001525878906" text="C2" />
                      </columns>
+                     <effect>
+                        <InnerShadow />
+                     </effect>
                   </TableView>
                </children>
             </AnchorPane>
@@ -94,7 +109,7 @@
                         <Line endX="38.99998474121094" endY="8.800003051757812" layoutX="86.0" layoutY="254.0" startX="4.2000579833984375" startY="8.800003051757812" />
                         <TextField fx:id="acumA" layoutX="32.0" layoutY="192.0" prefHeight="24.0" prefWidth="58.0" />
                         <TextField fx:id="acumB" layoutX="30.0" layoutY="247.0" prefHeight="24.0" prefWidth="58.0" />
-                        <TextField fx:id="valPC" layoutX="58.0" layoutY="49.0" prefHeight="24.0" prefWidth="100.0" />
+                        <TextField fx:id="valPc" layoutX="58.0" layoutY="49.0" prefHeight="24.0" prefWidth="100.0" />
                         <TextField fx:id="regPS" layoutX="51.0" layoutY="129.0" prefHeight="24.0" prefWidth="82.0" />
                         <TextField fx:id="regDP" layoutX="40.0" layoutY="333.0" prefHeight="24.0" prefWidth="58.0" />
                         <TextField fx:id="regPU" layoutX="188.0" layoutY="129.0" prefHeight="24.0" prefWidth="82.0" />
@@ -119,6 +134,9 @@
                </children>
             </AnchorPane>
         </content>
+         <effect>
+            <InnerShadow />
+         </effect>
       </TitledPane>
       <TitledPane animated="false" layoutX="428.0" layoutY="431.0" prefHeight="312.0" prefWidth="262.0" text="CLI">
         <content>
@@ -128,14 +146,82 @@
                </children>
             </AnchorPane>
         </content>
+         <effect>
+            <InnerShadow radius="11.18" width="25.72" />
+         </effect>
       </TitledPane>
-      <ToolBar layoutX="22.0" layoutY="57.0" prefHeight="37.0" prefWidth="596.0">
+      <ToolBar layoutX="22.0" layoutY="45.0" prefHeight="51.0" prefWidth="596.0">
          <items>
-            <Button mnemonicParsing="false" text="PAS A PAS" />
-          <Button mnemonicParsing="false" onAction="#reset" prefHeight="24.0" prefWidth="75.0" text="RESET" />
-            <TextField fx:id="nbCycle" prefHeight="24.0" prefWidth="58.0" />
+            <Button mnemonicParsing="false" onAction="#compile" prefHeight="27.0" prefWidth="34.0">
+               <graphic>
+                  <ImageView fx:id="compile" fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/compile.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <effect>
+                  <DropShadow />
+               </effect>
+               <tooltip>
+                  <Tooltip text="Compiler" />
+               </tooltip>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#run" prefHeight="27.0" prefWidth="34.0">
+               <graphic>
+                  <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/play.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <effect>
+                  <DropShadow />
+               </effect>
+               <tooltip>
+                  <Tooltip text="Run" />
+               </tooltip>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#stepbystep" prefHeight="27.0" prefWidth="34.0">
+               <graphic>
+                  <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/step.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <effect>
+                  <DropShadow />
+               </effect>
+               <tooltip>
+                  <Tooltip text="Pas à Pas" />
+               </tooltip>
+            </Button>
+          <Button mnemonicParsing="false" onAction="#reset" prefHeight="27.0" prefWidth="34.0">
+               <graphic>
+                  <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/reset.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <effect>
+                  <DropShadow />
+               </effect>
+               <tooltip>
+                  <Tooltip text="Reset" />
+               </tooltip>
+            </Button>
+            <TextField fx:id="nbCycle" prefHeight="27.0" prefWidth="55.0" />
          </items>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <effect>
+            <DropShadow />
+         </effect>
       </ToolBar>
       <Button layoutX="428.0" layoutY="751.0" mnemonicParsing="false" onAction="#enter" text="Enter" />
+      <VBox layoutX="424.0" layoutY="25.0" prefHeight="60.0" prefWidth="100.0" />
    </children>
 </AnchorPane>

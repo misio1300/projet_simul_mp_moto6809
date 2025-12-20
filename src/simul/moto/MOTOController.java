@@ -56,6 +56,11 @@ public class MOTOController
 	@FXML
 	private TextField regY;
 	private Logique logic;
+	private String programme;
+	private String err;
+	private String[] lignes;
+	private int i=0;
+	private boolean compileerr = true;
 	//private double x;
 	private boolean enterclick = false;
 	
@@ -91,8 +96,12 @@ public class MOTOController
 		//this.setAcumB("B");
 		//regX.setText("F");
 		//logic.ecrireMemoire(0x000A, 0x0A);
+		logic.ecrireMemoire(0x0007, 0x34);
+		logic.ecrireMemoire(0x0000, 0x01);
+		logic.ecrireMemoire(0x0001, 0x0E);
+		logic.ecrireMemoire(0x010E, 0x0A);
 		enterclick = true;
-		 String programme = this.gettxtCLI();
+		 programme = this.gettxtCLI();
 		 String err = logic.fetch(programme);
 		 if(err != null)
 		 {
@@ -106,8 +115,6 @@ public class MOTOController
 		 {
 			 logic.progMemoire(programme);
 			 this.insertTabProg();
-			 String[] lignes = programme.split("\\R");
-			 int i=0;
 			 this.setProxIns(lignes[i]);
 			 for (String ligne : lignes) 
 		     {
@@ -132,10 +139,146 @@ public class MOTOController
 		     }
 		 }
 	}
+	int compileprog = 0;
+	@FXML
+	private void compile()
+	{
+		programme = this.gettxtCLI();
+		 err = logic.fetch(programme);
+		 if(err != null)
+		 {
+		    Alert al = new Alert(Alert.AlertType.ERROR);
+		    al.setTitle("Erreur de programme");
+		    al.setHeaderText(err);
+		    al.show();
+		    return; 
+		 }
+		 else if(compileprog > 0 && programme.equals(this.gettxtCLI()))
+		 {
+			 Alert al = new Alert(Alert.AlertType.ERROR);
+			    al.setTitle("Erreur de programme");
+			    al.setHeaderText("Le programme n'a pas été modifié.");
+			    al.show();
+			    return;
+		 }
+		 else 
+		 {
+			 logic.progMemoire(programme);
+			 this.insertTabProg();
+			 lignes = programme.split("\\R");
+			 this.setProxIns(lignes[0]);
+			 this.compileerr = false;
+			 compileprog++;
+			 this.err = "null";
+		 }
+	}
+	@FXML
+	private void run()
+	{
+		if(compileerr)
+		{
+			if(err != null)
+			{
+				Alert al = new Alert(Alert.AlertType.ERROR);
+			    al.setTitle("Erreur d'execution");
+			    al.setHeaderText(err + " Dans l'editeur du texte.");
+			    al.show();
+			    return;
+			}
+			else
+			{
+				Alert al = new Alert(Alert.AlertType.ERROR);
+			    al.setTitle("Erreur d'execution");
+			    al.setHeaderText("Le programme n'a pas été compilé.");
+			    al.show();
+			    return;
+			}
+		}
+		else 
+		{
+			 int j=0;
+			 int adress = 0xFC00;
+			 String[] lignes = programme.split("\\R");
+			 this.setProxIns(lignes[j]);
+			 for (String ligne : lignes) 
+		     {
+		        if (ligne.isEmpty()) continue;
+		       // try
+		       // {
+		        	//Thread.sleep(3000);
+		        	String[] mot = ligne.split("\\s+");
+			        String instruct = mot[0];
+			        String mod = (mot.length > 1) ? mot[1] : "";
+			        Logique.execute(instruct, mod);
+			        if(j < lignes.length-1) 
+		        	{
+				        adress = adress + logic.nbOct(instruct, logic.decode(mod));
+				        this.setValPc(String.format("%04X", adress));
+		        		this.setProxIns(lignes[j + 1]);
+		        	}
+			        j++;
+		     }
+		}
+		
+	}
+	int adress;
+	@FXML
+	private void stepbystep()
+	{
+		if(compileerr)
+		{
+			if(err != null)
+			{
+				Alert al = new Alert(Alert.AlertType.ERROR);
+			    al.setTitle("Erreur d'execution");
+			    al.setHeaderText(err + " Dans l'editeur du texte.");
+			    al.show();
+			    return;
+			}
+			else
+			{
+				Alert al = new Alert(Alert.AlertType.ERROR);
+			    al.setTitle("Erreur d'execution");
+			    al.setHeaderText("Le programme n'a pas été compilé.");
+			    al.show();
+			    return;
+			}
+		}
+		else
+		{
+			if(i==0)
+			{
+				adress = 0xFC00;
+				lignes = programme.split("\\R");
+			}
+			if(i >= lignes.length - 1)
+			{
+				Alert al = new Alert(Alert.AlertType.ERROR);
+			    al.setTitle("Erreur d'execution");
+			    al.setHeaderText("Fin du programme.");
+			    al.show();
+			    return;
+			}
+				String[] mot = lignes[i].split("\\s+");
+		        String instruct = mot[0];
+		        String mod = (mot.length > 1) ? mot[1] : "";
+		        Logique.execute(instruct, mod);
+		        adress = adress + logic.nbOct(instruct, logic.decode(mod));
+		        this.setValPc(String.format("%04X", adress));
+		        if(i < lignes.length-1) 
+	        	{
+	        		this.setProxIns(lignes[i + 1]);
+	        	}	
+			i++;
+		}
+	}
 	@FXML
 	private void reset()
 	{
 		this.init();
+		this.compileprog = 0;
+		tabProg.getItems().clear();
+		i = 0;
 	}
 
 	
@@ -154,13 +297,13 @@ public class MOTOController
                 String.format("%04X", adress),
                 "END");
     	    	tabProg.getItems().add(ligne);
-    	    	String pc = "$" + String.format("%04X", adress);
-    	    	this.setValPc(pc);
+    	    	//String pc = String.format("%04X", adress);
+    	    	//this.setValPc(pc);
     	    }
 	    	else
 	    	{
-		    	String pc = "$" + String.format("%04X", adress);
-		    	this.setValPc(pc);
+		    	//String pc = String.format("%04X", adress);
+		    	//this.setValPc(pc);
 		        ObservableList<String> ligne = FXCollections.observableArrayList(
 		        String.format("%04X", adress),
 		        instruction);
@@ -169,6 +312,7 @@ public class MOTOController
 		        adress += (logic.nbOct(mot[0], logic.decode((mot.length > 1) ? mot[1] : "")));//instruction.length();
 	    	}
 	    }
+	    this.setValPc(String.format("%04X", 0xFC00));
 	}
 	/*private void initTabRamRom(String x) 
 	{
