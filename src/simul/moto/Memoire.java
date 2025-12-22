@@ -25,7 +25,7 @@ public class Memoire
     // Inicializar RAM e ROM com zeros
     public static void reset() {
         for (int i = 0; i < MEM_SIZE; i++) {
-            mem[i] = 0;
+            mem[i] = 0 ;
         }
     }
 }

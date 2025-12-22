@@ -89,57 +89,7 @@ public class MOTOController
 		//this.initTabRamRom("RAM");
 		//this.initTabRamRom("ROM");
 	}
-	/*@FXML
-	private void enter()
-	{
-
-		//this.setAcumA("A");
-		//this.setAcumB("B");
-		//regX.setText("F");
-		//logic.ecrireMemoire(0x000A, 0x0A);
-		logic.ecrireMemoire(0x0007, 0x34);
-		logic.ecrireMemoire(0x0000, 0x01);
-		logic.ecrireMemoire(0x0001, 0x0E);
-		logic.ecrireMemoire(0x010E, 0x0A);
-		enterclick = true;
-		 programme = this.gettxtCLI();
-		 String err = logic.fetch(programme);
-		 if(err != null)
-		 {
-		    Alert al = new Alert(Alert.AlertType.ERROR);
-		    al.setTitle("Erreur de programme");
-		    al.setHeaderText(err);
-		    al.show();
-		    return; 
-		 }
-		 else
-		 {
-			 logic.progMemoire(programme);
-			 this.insertTabProg();
-			 this.setProxIns(lignes[i]);
-			 for (String ligne : lignes) 
-		     {
-		        if (ligne.isEmpty()) continue;
-		       // try
-		       // {
-		        	//Thread.sleep(3000);
-		        	String[] mot = ligne.split("\\s+");
-			        String instruct = mot[0];
-			        String mod = (mot.length > 1) ? mot[1] : "";
-			        Logique.execute(instruct, mod);
-			        if(i < lignes.length-1) 
-		        	{
-		        		this.setProxIns(lignes[i + 1]);
-		        	}			     
-			        
-		       // }
-		       // catch(InterruptedException e)
-		       // {
-		       // 	Thread.currentThread().interrupt();
-		       // }
-		     }
-		 }
-	}*/
+	
 	int compileprog = 0;
 	@FXML
 	private void compile()
@@ -315,33 +265,7 @@ public class MOTOController
 	    }
 	    this.setValPc(String.format("%04X", 0xFC00));
 	}
-	/*private void initTabRamRom(String x) 
-	{
-	    if(x=="RAM")
-	    {
-	    	for (int adr = 0x0000; adr < 0xFC00; adr++) 
-		    {
-	            ObservableList<String> ligne = FXCollections.observableArrayList(
-	            String.format("%04X", adr),
-	            "00");
-		    	tabRam.getItems().add(ligne);
-		    }
-	    }
-	    	else
-	    	{
-	    		for (int adr = 0xFC00; adr < 0xFFFF; adr++) 
-	    	    {
-	                ObservableList<String> ligne = FXCollections.observableArrayList(
-	                String.format("%04X", adr),
-	                "00");
-	    	    	tabRom.getItems().add(ligne);
-	    	    }
-	    	}
-	}*/
-	public void insertTabRamRom(/*int mem,*/ int v)
-	{
-		
-	}
+
 	@FXML
 	private void save()
 	{
