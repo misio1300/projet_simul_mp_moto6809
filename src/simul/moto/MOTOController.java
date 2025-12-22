@@ -55,6 +55,7 @@ public class MOTOController
 	private TextField regX;
 	@FXML
 	private TextField regY;
+	
 	private Logique logic;
 	private String programme;
 	private String err;
@@ -88,7 +89,7 @@ public class MOTOController
 		//this.initTabRamRom("RAM");
 		//this.initTabRamRom("ROM");
 	}
-	@FXML
+	/*@FXML
 	private void enter()
 	{
 
@@ -138,7 +139,7 @@ public class MOTOController
 		       // }
 		     }
 		 }
-	}
+	}*/
 	int compileprog = 0;
 	@FXML
 	private void compile()
@@ -467,8 +468,12 @@ public class MOTOController
 	{
 		this.setAcumA("00");
 		this.setAcumB("00");
+		this.setAcumD("0000");
 		this.setValPc("");
 		this.setRegX("0000");
+		this.setRegY("0000");
+		this.setRegPS("0000");
+		this.setRegPU("0000");
 		this.setRegDP("00");
 		this.setProxIns("");
 		this.setTxtCli("");

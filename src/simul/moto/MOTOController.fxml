@@ -221,7 +221,6 @@
             <DropShadow />
          </effect>
       </ToolBar>
-      <Button layoutX="428.0" layoutY="751.0" mnemonicParsing="false" onAction="#enter" text="Enter" />
       <VBox layoutX="424.0" layoutY="25.0" prefHeight="60.0" prefWidth="100.0" />
    </children>
 </AnchorPane>
