@@ -2020,15 +2020,147 @@ public class Logique
 	}
 	public void mul(String m)
 	{
+		String val = OpFlags.multiplication(Controller.getAcumA(), Controller.getAcumB());
+		int valint = Integer.parseInt(val, 16);
+		int Aint = Integer.parseInt(Controller.getAcumA(), 16);
+		int Bint = Integer.parseInt(Controller.getAcumB(), 16);
+		Controller.setAcumD(val);
+		if(valint == 0 && "cmul".equals(OpFlags.flags(Aint, Bint, valint))) 
+			this.atualflags("0 0 0 0 0 1 0 1");
+		else if(valint == 0)
+			this.atualflags("0 0 0 0 0 1 0 0");
+		else if("cmul".equals(OpFlags.flags(Aint, Bint, valint)))
+			this.atualflags("0 0 0 0 0 0 0 1");
+		else
+			this.atualflags("0 0 0 0 0 0 0 0");
 		
 	}
 	public void cmpa(String m)
 	{
+		String is = this.decode(m);
+		if("IMMEDIAT".equals(is))
+		{
+			String flags = OpFlags.flags(Integer.parseInt(Controller.getAcumA()), Integer.parseInt(m.substring(2)), Integer.parseInt(OpFlags.substraction(Controller.getAcumA(), m.substring(2))));
+			if("PASDE".equals(flags)) this.atualflags("0 0 0 0 0 0 0 0"); //A > sub
+			else if("z".equals(flags)) this.atualflags("0 0 0 0 0 1 0 0");//A = sub
+			else if("csubn".equals(flags)) this.atualflags("0 0 0 0 1 0 0 1");//A < sub
+			else if("vsub".equals(flags)) this.atualflags("0 0 0 0 0 0 1 0"); //(+)
+			else this.atualflags("0 0 0 0 1 0 1 1");//(-)
+		}
+		if("ETENDU".equals(is))
+		{
+			if(m.startsWith(">$"))
+			{
+				String flags = OpFlags.flags(Integer.parseInt(Controller.getAcumA()), Memoire.lire(Integer.parseInt(m.substring(2), 16)), Integer.parseInt(OpFlags.substraction(Controller.getAcumA(), String.format("%02X", Memoire.lire(Integer.parseInt(m.substring(1), 16))))));
+				if("PASDE".equals(flags)) this.atualflags("0 0 0 0 0 0 0 0"); //A > sub
+				else if("z".equals(flags)) this.atualflags("0 0 0 0 0 1 0 0");//A = sub
+				else if("csubn".equals(flags)) this.atualflags("0 0 0 0 1 0 0 1");//A < sub
+				else if("vsub".equals(flags)) this.atualflags("0 0 0 0 0 0 1 0"); //(+)
+				else this.atualflags("0 0 0 0 1 0 1 1");//(-)
+			}
+			else
+			{
+				String flags = OpFlags.flags(Integer.parseInt(Controller.getAcumA()), Memoire.lire(Integer.parseInt(m.substring(1), 16)), Integer.parseInt(OpFlags.substraction(Controller.getAcumA(), String.format("%02X", Memoire.lire(Integer.parseInt(m.substring(1), 16)))))); 
+				if("PASDE".equals(flags)) this.atualflags("0 0 0 0 0 0 0 0"); //A > sub
+				else if("z".equals(flags)) this.atualflags("0 0 0 0 0 1 0 0");//A = sub
+				else if("csubn".equals(flags)) this.atualflags("0 0 0 0 1 0 0 1");//A < sub
+				else if("vsub".equals(flags)) this.atualflags("0 0 0 0 0 0 1 0"); //(+)
+				else this.atualflags("0 0 0 0 1 0 1 1");//(-)
+			}
+		}
+		else if("ETENDUINDIRECT".equals(is))
+		{
+			if(m.startsWith("[>$"))
+			{
+				int adress = Integer.parseInt(m.substring(3), 16);
+				String V1 = String.format("%02X", Memoire.lire(adress));
+				String V2 = String.format("%02X", Memoire.lire(adress + 1));
+				int adressEFF = Integer.parseInt((V1 + V2), 16);
+				String flags = OpFlags.flags(Integer.parseInt(Controller.getAcumA()), Memoire.lire(adressEFF), Integer.parseInt(OpFlags.substraction(Controller.getAcumA(), String.format("%02X", Memoire.lire(adressEFF)))));
+				if("PASDE".equals(flags)) this.atualflags("0 0 0 0 0 0 0 0"); //A > sub
+				else if("z".equals(flags)) this.atualflags("0 0 0 0 0 1 0 0");//A = sub
+				else if("csubn".equals(flags)) this.atualflags("0 0 0 0 1 0 0 1");//A < sub
+				else if("vsub".equals(flags)) this.atualflags("0 0 0 0 0 0 1 0"); //(+)
+				else this.atualflags("0 0 0 0 1 0 1 1");//(-)
+			}
+			else
+			{
+				int adress = Integer.parseInt(m.substring(2), 16);
+				String V1 = String.format("%02X", Memoire.lire(adress));
+				String V2 = String.format("%02X", Memoire.lire(adress + 1));
+				int adressEFF = Integer.parseInt((V1 + V2), 16);
+				String flags = OpFlags.flags(Integer.parseInt(Controller.getAcumA()), Memoire.lire(adressEFF), Integer.parseInt(OpFlags.substraction(Controller.getAcumA(), String.format("%02X", Memoire.lire(adressEFF)))));
+				if("PASDE".equals(flags)) this.atualflags("0 0 0 0 0 0 0 0"); //A > sub
+				else if("z".equals(flags)) this.atualflags("0 0 0 0 0 1 0 0");//A = sub
+				else if("csubn".equals(flags)) this.atualflags("0 0 0 0 1 0 0 1");//A < sub
+				else if("vsub".equals(flags)) this.atualflags("0 0 0 0 0 0 1 0"); //(+)
+				else this.atualflags("0 0 0 0 1 0 1 1");//(-)
+			}
+		}
 		
 	}
 	public void cmpb(String m)
 	{
-		
+		String is = this.decode(m);
+		if("IMMEDIAT".equals(is))
+		{
+			String flags = OpFlags.flags(Integer.parseInt(Controller.getAcumB()), Integer.parseInt(m.substring(2)), Integer.parseInt(OpFlags.substraction(Controller.getAcumB(), m.substring(2))));
+			if("PASDE".equals(flags)) this.atualflags("0 0 0 0 0 0 0 0"); //A > sub
+			else if("z".equals(flags)) this.atualflags("0 0 0 0 0 1 0 0");//A = sub
+			else if("csubn".equals(flags)) this.atualflags("0 0 0 0 1 0 0 1");//A < sub
+			else if("vsub".equals(flags)) this.atualflags("0 0 0 0 0 0 1 0"); //(+)
+			else this.atualflags("0 0 0 0 1 0 1 1");//(-)
+		}
+		if("ETENDU".equals(is))
+		{
+			if(m.startsWith(">$"))
+			{
+				String flags = OpFlags.flags(Integer.parseInt(Controller.getAcumB()), Memoire.lire(Integer.parseInt(m.substring(2), 16)), Integer.parseInt(OpFlags.substraction(Controller.getAcumB(), String.format("%02X", Memoire.lire(Integer.parseInt(m.substring(1), 16))))));
+				if("PASDE".equals(flags)) this.atualflags("0 0 0 0 0 0 0 0"); //A > sub
+				else if("z".equals(flags)) this.atualflags("0 0 0 0 0 1 0 0");//A = sub
+				else if("csubn".equals(flags)) this.atualflags("0 0 0 0 1 0 0 1");//A < sub
+				else if("vsub".equals(flags)) this.atualflags("0 0 0 0 0 0 1 0"); //(+)
+				else this.atualflags("0 0 0 0 1 0 1 1");//(-)
+			}
+			else
+			{
+				String flags = OpFlags.flags(Integer.parseInt(Controller.getAcumB()), Memoire.lire(Integer.parseInt(m.substring(1), 16)), Integer.parseInt(OpFlags.substraction(Controller.getAcumB(), String.format("%02X", Memoire.lire(Integer.parseInt(m.substring(1), 16)))))); 
+				if("PASDE".equals(flags)) this.atualflags("0 0 0 0 0 0 0 0"); //A > sub
+				else if("z".equals(flags)) this.atualflags("0 0 0 0 0 1 0 0");//A = sub
+				else if("csubn".equals(flags)) this.atualflags("0 0 0 0 1 0 0 1");//A < sub
+				else if("vsub".equals(flags)) this.atualflags("0 0 0 0 0 0 1 0"); //(+)
+				else this.atualflags("0 0 0 0 1 0 1 1");//(-)
+			}
+		}
+		else if("ETENDUINDIRECT".equals(is))
+		{
+			if(m.startsWith("[>$"))
+			{
+				int adress = Integer.parseInt(m.substring(3), 16);
+				String V1 = String.format("%02X", Memoire.lire(adress));
+				String V2 = String.format("%02X", Memoire.lire(adress + 1));
+				int adressEFF = Integer.parseInt((V1 + V2), 16);
+				String flags = OpFlags.flags(Integer.parseInt(Controller.getAcumB()), Memoire.lire(adressEFF), Integer.parseInt(OpFlags.substraction(Controller.getAcumB(), String.format("%02X", Memoire.lire(adressEFF)))));
+				if("PASDE".equals(flags)) this.atualflags("0 0 0 0 0 0 0 0"); //A > sub
+				else if("z".equals(flags)) this.atualflags("0 0 0 0 0 1 0 0");//A = sub
+				else if("csubn".equals(flags)) this.atualflags("0 0 0 0 1 0 0 1");//A < sub
+				else if("vsub".equals(flags)) this.atualflags("0 0 0 0 0 0 1 0"); //(+)
+				else this.atualflags("0 0 0 0 1 0 1 1");//(-)
+			}
+			else
+			{
+				int adress = Integer.parseInt(m.substring(2), 16);
+				String V1 = String.format("%02X", Memoire.lire(adress));
+				String V2 = String.format("%02X", Memoire.lire(adress + 1));
+				int adressEFF = Integer.parseInt((V1 + V2), 16);
+				String flags = OpFlags.flags(Integer.parseInt(Controller.getAcumB()), Memoire.lire(adressEFF), Integer.parseInt(OpFlags.substraction(Controller.getAcumB(), String.format("%02X", Memoire.lire(adressEFF)))));
+				if("PASDE".equals(flags)) this.atualflags("0 0 0 0 0 0 0 0"); //A > sub
+				else if("z".equals(flags)) this.atualflags("0 0 0 0 0 1 0 0");//A = sub
+				else if("csubn".equals(flags)) this.atualflags("0 0 0 0 1 0 0 1");//A < sub
+				else if("vsub".equals(flags)) this.atualflags("0 0 0 0 0 0 1 0"); //(+)
+				else this.atualflags("0 0 0 0 1 0 1 1");//(-)
+			}
+		}
 	}
 	static void Inii(Logique logic)
 	{
