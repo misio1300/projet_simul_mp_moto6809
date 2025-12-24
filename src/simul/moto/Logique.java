@@ -275,6 +275,7 @@ public class Logique
 		String res = OpFlags.somme(B, X);
 		res = String.format("%4s", res).replace(' ', '0');
 		Controller.setRegX(res);
+		atualnbcycle(3);
 		this.atualflags("0 0 0 0 0 0 0 0");
 	}
 	public void lda(String m)
@@ -285,6 +286,7 @@ public class Logique
 			String val = m.substring(2);
 			Controller.setAcumA(val);
 			this.atualflags("0 0 0 0 0 0 0 0");
+			atualnbcycle(2);
 		}
 		else if("ETENDU".equals(m))
 		{
@@ -294,6 +296,7 @@ public class Logique
 				String valHex = String.format("%02X", val);
 				Controller.setAcumA(valHex);
 				this.atualflags("0 0 0 0 0 0 0 0");
+				atualnbcycle(5);
 			}
 			else if(m.length() == 6)
 			{
@@ -301,6 +304,7 @@ public class Logique
 				String valHex = String.format("%02X", val);
 				Controller.setAcumA(valHex);
 				this.atualflags("0 0 0 0 0 0 0 0");
+				atualnbcycle(5);
 			}
 		}
 		else if("ETENDUINDIRECT".equals(is))
@@ -337,6 +341,7 @@ public class Logique
 			String valHex = String.format("%02X", val);
 			Controller.setAcumA(valHex);
 			this.atualflags("0 0 0 0 0 0 0 0");
+			atualnbcycle(4);
 		}
 		else if("INDEXEDEPNULL".equals(is))
 		{
@@ -733,6 +738,7 @@ public class Logique
 			String val = m.substring(2);
 			Controller.setAcumB(val);
 			this.atualflags("0 0 0 0 0 0 0 0");
+			atualnbcycle(2);
 		}
 		else if("ETENDU".equals(is))
 		{
@@ -742,6 +748,7 @@ public class Logique
 				String valHex = String.format("%02X", val);
 				Controller.setAcumB(valHex);
 				this.atualflags("0 0 0 0 0 0 0 0");
+				atualnbcycle(5);
 			}
 			else if(m.length() == 6)
 			{
@@ -749,6 +756,7 @@ public class Logique
 				String valHex = String.format("%02X", val);
 				Controller.setAcumB(valHex);
 				this.atualflags("0 0 0 0 0 0 0 0");
+				atualnbcycle(5);
 			}
 		}
 		else if("ETENDUINDIRECT".equals(is))
@@ -785,6 +793,7 @@ public class Logique
 			String valHex = String.format("%02X", val);
 			Controller.setAcumB(valHex);
 			this.atualflags("0 0 0 0 0 0 0 0");
+			atualnbcycle(4);
 		}
 		else if("INDEXEDEPNULL".equals(is))
 		{
@@ -2020,19 +2029,18 @@ public class Logique
 	}
 	public void mul(String m)
 	{
-		String val = OpFlags.multiplication(Controller.getAcumA(), Controller.getAcumB());
+		int Val = Integer.parseInt(OpFlags.multiplication(Controller.getAcumA(), Controller.getAcumB()), 16);
+		String val = String.format("%04X", Val);
 		int valint = Integer.parseInt(val, 16);
 		int Aint = Integer.parseInt(Controller.getAcumA(), 16);
 		int Bint = Integer.parseInt(Controller.getAcumB(), 16);
 		Controller.setAcumD(val);
-		if(valint == 0 && "cmul".equals(OpFlags.flags(Aint, Bint, valint))) 
-			this.atualflags("0 0 0 0 0 1 0 1");
-		else if(valint == 0)
-			this.atualflags("0 0 0 0 0 1 0 0");
-		else if("cmul".equals(OpFlags.flags(Aint, Bint, valint)))
-			this.atualflags("0 0 0 0 0 0 0 1");
-		else
-			this.atualflags("0 0 0 0 0 0 0 0");
+		if(valint == 0 && "cmul".equals(OpFlags.flags(Aint, Bint, valint))) this.atualflags("0 0 0 0 0 1 0 1");
+		else if(valint == 0) this.atualflags("0 0 0 0 0 1 0 0");
+		else if("cmul".equals(OpFlags.flags(Aint, Bint, valint))) this.atualflags("0 0 0 0 0 0 0 1");
+		else this.atualflags("0 0 0 0 0 0 0 0");
+		atualnbcycle(11);
+		
 		
 	}
 	public void cmpa(String m)
@@ -2046,6 +2054,7 @@ public class Logique
 			else if("csubn".equals(flags)) this.atualflags("0 0 0 0 1 0 0 1");//A < sub
 			else if("vsub".equals(flags)) this.atualflags("0 0 0 0 0 0 1 0"); //(+)
 			else this.atualflags("0 0 0 0 1 0 1 1");//(-)
+			atualnbcycle(2);
 		}
 		if("ETENDU".equals(is))
 		{
@@ -2057,6 +2066,7 @@ public class Logique
 				else if("csubn".equals(flags)) this.atualflags("0 0 0 0 1 0 0 1");//A < sub
 				else if("vsub".equals(flags)) this.atualflags("0 0 0 0 0 0 1 0"); //(+)
 				else this.atualflags("0 0 0 0 1 0 1 1");//(-)
+				atualnbcycle(5);
 			}
 			else
 			{
@@ -2066,13 +2076,14 @@ public class Logique
 				else if("csubn".equals(flags)) this.atualflags("0 0 0 0 1 0 0 1");//A < sub
 				else if("vsub".equals(flags)) this.atualflags("0 0 0 0 0 0 1 0"); //(+)
 				else this.atualflags("0 0 0 0 1 0 1 1");//(-)
+				atualnbcycle(5);
 			}
 		}
 		else if("ETENDUINDIRECT".equals(is))
 		{
 			if(m.startsWith("[>$"))
 			{
-				int adress = Integer.parseInt(m.substring(3), 16);
+				int adress = Integer.parseInt(m.substring(3, 7), 16);
 				String V1 = String.format("%02X", Memoire.lire(adress));
 				String V2 = String.format("%02X", Memoire.lire(adress + 1));
 				int adressEFF = Integer.parseInt((V1 + V2), 16);
@@ -2085,7 +2096,7 @@ public class Logique
 			}
 			else
 			{
-				int adress = Integer.parseInt(m.substring(2), 16);
+				int adress = Integer.parseInt(m.substring(2, 6), 16);
 				String V1 = String.format("%02X", Memoire.lire(adress));
 				String V2 = String.format("%02X", Memoire.lire(adress + 1));
 				int adressEFF = Integer.parseInt((V1 + V2), 16);
@@ -2096,6 +2107,17 @@ public class Logique
 				else if("vsub".equals(flags)) this.atualflags("0 0 0 0 0 0 1 0"); //(+)
 				else this.atualflags("0 0 0 0 1 0 1 1");//(-)
 			}
+		}
+		else if("DIRECT".equals(is))
+		{
+			String V1 = Controller.getRegDP(); String V2 = m.substring(2); int val = Memoire.lire(Integer.parseInt((V1 + V2), 16));
+			String flags = OpFlags.flags(Integer.parseInt(Controller.getAcumA()), val, Integer.parseInt(OpFlags.substraction(Controller.getAcumA(), String.format("%02X", val))));
+			if("PASDE".equals(flags)) this.atualflags("0 0 0 0 0 0 0 0"); //A > sub
+			else if("z".equals(flags)) this.atualflags("0 0 0 0 0 1 0 0");//A = sub
+			else if("csubn".equals(flags)) this.atualflags("0 0 0 0 1 0 0 1");//A < sub
+			else if("vsub".equals(flags)) this.atualflags("0 0 0 0 0 0 1 0"); //(+)
+			else this.atualflags("0 0 0 0 1 0 1 1");//(-)
+			atualnbcycle(4);
 		}
 		
 	}
@@ -2110,6 +2132,7 @@ public class Logique
 			else if("csubn".equals(flags)) this.atualflags("0 0 0 0 1 0 0 1");//A < sub
 			else if("vsub".equals(flags)) this.atualflags("0 0 0 0 0 0 1 0"); //(+)
 			else this.atualflags("0 0 0 0 1 0 1 1");//(-)
+			atualnbcycle(2);
 		}
 		if("ETENDU".equals(is))
 		{
@@ -2121,6 +2144,7 @@ public class Logique
 				else if("csubn".equals(flags)) this.atualflags("0 0 0 0 1 0 0 1");//A < sub
 				else if("vsub".equals(flags)) this.atualflags("0 0 0 0 0 0 1 0"); //(+)
 				else this.atualflags("0 0 0 0 1 0 1 1");//(-)
+				atualnbcycle(5);
 			}
 			else
 			{
@@ -2130,13 +2154,14 @@ public class Logique
 				else if("csubn".equals(flags)) this.atualflags("0 0 0 0 1 0 0 1");//A < sub
 				else if("vsub".equals(flags)) this.atualflags("0 0 0 0 0 0 1 0"); //(+)
 				else this.atualflags("0 0 0 0 1 0 1 1");//(-)
+				atualnbcycle(5);
 			}
 		}
 		else if("ETENDUINDIRECT".equals(is))
 		{
 			if(m.startsWith("[>$"))
 			{
-				int adress = Integer.parseInt(m.substring(3), 16);
+				int adress = Integer.parseInt(m.substring(3, 7), 16);
 				String V1 = String.format("%02X", Memoire.lire(adress));
 				String V2 = String.format("%02X", Memoire.lire(adress + 1));
 				int adressEFF = Integer.parseInt((V1 + V2), 16);
@@ -2149,7 +2174,7 @@ public class Logique
 			}
 			else
 			{
-				int adress = Integer.parseInt(m.substring(2), 16);
+				int adress = Integer.parseInt(m.substring(2, 6), 16);
 				String V1 = String.format("%02X", Memoire.lire(adress));
 				String V2 = String.format("%02X", Memoire.lire(adress + 1));
 				int adressEFF = Integer.parseInt((V1 + V2), 16);
@@ -2160,6 +2185,17 @@ public class Logique
 				else if("vsub".equals(flags)) this.atualflags("0 0 0 0 0 0 1 0"); //(+)
 				else this.atualflags("0 0 0 0 1 0 1 1");//(-)
 			}
+		}
+		else if("DIRECT".equals(is))
+		{
+			String V1 = Controller.getRegDP(); String V2 = m.substring(2); int val = Memoire.lire(Integer.parseInt((V1 + V2), 16));
+			String flags = OpFlags.flags(Integer.parseInt(Controller.getAcumB()), val, Integer.parseInt(OpFlags.substraction(Controller.getAcumB(), String.format("%02X", val))));
+			if("PASDE".equals(flags)) this.atualflags("0 0 0 0 0 0 0 0"); //A > sub
+			else if("z".equals(flags)) this.atualflags("0 0 0 0 0 1 0 0");//A = sub
+			else if("csubn".equals(flags)) this.atualflags("0 0 0 0 1 0 0 1");//A < sub
+			else if("vsub".equals(flags)) this.atualflags("0 0 0 0 0 0 1 0"); //(+)
+			else this.atualflags("0 0 0 0 1 0 1 1");//(-)
+			atualnbcycle(4);
 		}
 	}
 	static void Inii(Logique logic)
@@ -2257,6 +2293,14 @@ public class Logique
 		opcode.put("CMPBINDEXEDEPCONS2OCT", "E1_1R09_4");
 		opcode.put("ABXINHERENT", "3A_1");
 		opcode.put("MULINHERENT", "3D_1");
+	}
+	public void atualnbcycle(int n)
+	{
+		int nb;
+		if("".equals(Controller.getNbCycle())) nb = 0;
+		else { nb = Integer.parseInt(Controller.getNbCycle()); }
+		String NB = String.format("%d", (nb + n));
+		Controller.setNbCycle(NB); 
 	}
 	public void atualflags(String f)
 	{

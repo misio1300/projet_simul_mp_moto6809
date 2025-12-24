@@ -50,6 +50,8 @@ public class MOTOController
 	@FXML
 	private TextField acumD;
 	@FXML
+	private TextField nbCycle; 
+	@FXML
 	byte[] mem = new byte[65536];
 	@FXML
 	private TextField regX;
@@ -349,6 +351,12 @@ public class MOTOController
 	public void setFlags(String x) {
 		javafx.application.Platform.runLater(() -> { this.flags.setText(x);});
 	}
+	public String getNbCycle() {
+		return nbCycle.getText();
+	}
+	public void setNbCycle(String x) {
+		javafx.application.Platform.runLater(() -> { this.nbCycle.setText(x);});
+	}
 	public void atualiserRAMTab() {
 	    tabRam.getItems().clear();
 
@@ -402,6 +410,7 @@ public class MOTOController
 		this.setProxIns("");
 		this.setTxtCli("");
 		this.initFlags();
+		this.setNbCycle("");
 	}
 
 
